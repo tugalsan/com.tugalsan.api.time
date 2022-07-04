@@ -13,29 +13,29 @@ import java.util.concurrent.*;
 
 @Deprecated
 public class TS_TimeUtils {
-    
+
     public static String getTimeZoneId(TimeZone timeZone) {
         var milliDiff = Calendar.getInstance().get(Calendar.ZONE_OFFSET);
         return Arrays.stream(TimeZone.getAvailableIDs()).filter(id -> TimeZone.getTimeZone(id).getRawOffset() == milliDiff).findAny().orElse(null);
     }
-    
+
     public static ZoneOffset getOffset(TimeZone timeZone) { //for using ZoneOffsett class
         ZoneId zi = timeZone.toZoneId();
         ZoneRules zr = zi.getRules();
         return zr.getOffset(LocalDateTime.now());
     }
-    
+
     public static int getOffsetHours(TimeZone timeZone) { //just hour offset
         ZoneOffset zo = getOffset(timeZone);
         return (int) TimeUnit.SECONDS.toHours(zo.getTotalSeconds());
     }
-    
+
     public static interface WinKernel32 extends StdCallLibrary {
-        
+
         boolean SetLocalTime(SYSTEMTIME st);
         WinKernel32 instance = (WinKernel32) Native.load("kernel32.dll", WinKernel32.class);
     }
-    
+
     public static boolean setDateAndTime(TGS_Time dateAndTime) {
         if (System.getProperty("os.name").toLowerCase(Locale.ROOT).startsWith("windows")) {
             var st = new SYSTEMTIME();
@@ -52,16 +52,13 @@ public class TS_TimeUtils {
             return b1 && b2;
         }
     }
-    
+
     private static String make2Chars(int i) {
         var is = String.valueOf(i);
         return is.length() < 2 ? TGS_StringUtils.concat("0", is) : is;
     }
-    
+
     private static boolean execute(String commandLine) {
-        return TGS_UnSafe.compile(() -> {
-            Runtime.getRuntime().exec(commandLine);
-            return true;
-        }, e -> false);
+        return TGS_UnSafe.compile(() -> Runtime.getRuntime().exec(commandLine) != null, e -> false);
     }
 }
