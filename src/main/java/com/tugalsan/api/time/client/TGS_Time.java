@@ -4,6 +4,7 @@ package com.tugalsan.api.time.client;
 import com.google.gwt.user.client.rpc.*;
 import com.tugalsan.api.cast.client.*;
 import com.tugalsan.api.string.client.*;
+import com.tugalsan.api.unsafe.client.*;
 import java.util.*;
 import java.util.stream.*;
 
@@ -324,7 +325,7 @@ public class TGS_Time implements IsSerializable {
     }
 
     public static TGS_Time toTimeFull(String time) {
-        try {
+        return TGS_UnSafe.compile(() -> {
             if (time == null || time.length() != 8) {
                 return null;
             }
@@ -345,22 +346,21 @@ public class TGS_Time implements IsSerializable {
             t.setMinute(mni);
             t.setSecond(sci);
             return t;
-        } catch (Exception r) {
-            return null;
-        }
+        }, e -> null);
     }
 
     public static TGS_Time toTimeSimplified(String time) {
-        try {
-            if (time == null) {
+        return TGS_UnSafe.compile(() -> {
+            var time0 = time;
+            if (time0 == null) {
                 return null;
             }
-            time = time.trim();
-            var i = time.indexOf(" ");
+            time0 = time0.trim();
+            var i = time0.indexOf(" ");
             if (i == -1) {
-                i = time.indexOf(":");
+                i = time0.indexOf(":");
                 if (i == -1) {
-                    var ii = TGS_CastUtils.toInteger(time);
+                    var ii = TGS_CastUtils.toInteger(time0);
                     if (ii == null) {
                         return null;
                     } else {
@@ -372,11 +372,11 @@ public class TGS_Time implements IsSerializable {
                     }
                 }
             }
-            var hri = TGS_CastUtils.toInteger(time.substring(0, i));
+            var hri = TGS_CastUtils.toInteger(time0.substring(0, i));
             if (hri == null) {
                 return null;
             }
-            var mni = TGS_CastUtils.toInteger(time.substring(i + 1));
+            var mni = TGS_CastUtils.toInteger(time0.substring(i + 1));
             if (mni == null) {
                 return null;
             }
@@ -385,9 +385,7 @@ public class TGS_Time implements IsSerializable {
             t.setMinute(mni);
             t.setSecond(0);
             return t;
-        } catch (Exception r) {//DO NOT THRWO EXCEPTION PLEASE
-            return null;
-        }
+        }, e -> null);
     }
 
     public String toStringHTML5_YYYY_MM_DD() {
@@ -430,7 +428,7 @@ public class TGS_Time implements IsSerializable {
     }
 
     public static TGS_Time toDate(String date) {
-        try {
+        return TGS_UnSafe.compile(() -> {
             TGS_Time d;
             d = toDate(date, ' ');
             if (d == null) {
@@ -443,26 +441,25 @@ public class TGS_Time implements IsSerializable {
                 d = toDate(date, '-');
             }
             return d;
-        } catch (Exception r) {//DO NOT THROW EXCEPTION, PLEASE!
-            return null;
-        }
+        }, e -> null);
     }
 
     public static TGS_Time toDate(String date, char delim) {
-        try {
-            if (date == null) {
+        return TGS_UnSafe.compile(() -> {
+            var date0 = date;
+            if (date0 == null) {
                 return null;
             }
-            date = date.trim();
-            var i = date.indexOf(delim);
+            date0 = date0.trim();
+            var i = date0.indexOf(delim);
             if (i == -1) {
                 return null;
 //            return new TK_GWTDate();
             }
-            var j = date.lastIndexOf(delim);
+            var j = date0.lastIndexOf(delim);
             Integer dyi;
-            if (date.length() >= i) {
-                dyi = TGS_CastUtils.toInteger(date.substring(0, i));
+            if (date0.length() >= i) {
+                dyi = TGS_CastUtils.toInteger(date0.substring(0, i));
             } else {
                 dyi = getCurrentDay();
             }
@@ -470,8 +467,8 @@ public class TGS_Time implements IsSerializable {
                 return null;
             }
             Integer mni;
-            if (date.length() >= j) {
-                mni = TGS_CastUtils.toInteger(date.substring(i + 1, j));
+            if (date0.length() >= j) {
+                mni = TGS_CastUtils.toInteger(date0.substring(i + 1, j));
             } else {
                 mni = getCurrentMonth();
             }
@@ -479,8 +476,8 @@ public class TGS_Time implements IsSerializable {
                 return null;
             }
             Integer yri;
-            if (date.length() > j + 1) {
-                yri = TGS_CastUtils.toInteger(date.substring(j + 1, date.length()));
+            if (date0.length() > j + 1) {
+                yri = TGS_CastUtils.toInteger(date0.substring(j + 1, date0.length()));
             } else {
                 yri = getCurrentMonth();
             }
@@ -492,9 +489,7 @@ public class TGS_Time implements IsSerializable {
             d.setMonth(mni);
             d.setYear(yri < 100 ? yri + 2000 : yri);
             return d;
-        } catch (Exception r) {
-            return null;
-        }
+        }, e -> null);
     }
 
     public String getDateStamp() {
@@ -502,11 +497,7 @@ public class TGS_Time implements IsSerializable {
     }
 
     public static int getMaxDaysOfYear(int year) {
-        var maxDays = 0;
-        for (var i = 1; i <= 12; i++) {
-            maxDays += getMonthLength(i, year);
-        }
-        return maxDays;
+        return IntStream.rangeClosed(1, 12).map(i -> getMonthLength(i, year)).sum();
     }
 
     public static String getDayOfWeekName(boolean turkish, int dayOfWeek) {

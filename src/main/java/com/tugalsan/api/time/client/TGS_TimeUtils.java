@@ -1,5 +1,7 @@
 package com.tugalsan.api.time.client;
 
+import com.tugalsan.api.unsafe.client.*;
+
 public class TGS_TimeUtils {
 
     public static int SECS_TIMEOUT_MINUS_ONE() {
@@ -42,7 +44,7 @@ public class TGS_TimeUtils {
     }
 
     public static boolean isValidDate(Long lngDate) {
-        try {
+        return TGS_UnSafe.compile(() -> {
             if (lngDate == null) {
                 return false;
             }
@@ -70,20 +72,16 @@ public class TGS_TimeUtils {
                 default:
             }
             return date.getDay() > 0 && date.getDay() <= maxMonthDays && date.getMonth() > 0 && date.getMonth() <= 12;
-        } catch (Exception e) {
-            return false;
-        }
+        }, e -> false);
     }
 
     public static boolean isValidTime(Long lngTime) {
-        try {
+        return TGS_UnSafe.compile(() -> {
             if (lngTime == null) {
                 return false;
             }
             var time = TGS_Time.of(lngTime, false);
             return time.getHour() >= 0 && time.getHour() <= 23 && time.getMinute() >= 0 && time.getMinute() <= 59 && time.getSecond() >= 0 && time.getSecond() <= 59;
-        } catch (Exception e) {
-            return false;
-        }
+        }, e -> false);
     }
 }
