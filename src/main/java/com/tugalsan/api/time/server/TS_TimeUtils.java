@@ -59,7 +59,7 @@ public class TS_TimeUtils {
     }
     
     private static boolean execute(String commandLine) {
-        return TGS_UnSafe.execute(() -> {
+        return TGS_UnSafe.compile(() -> {
             Runtime.getRuntime().exec(commandLine);
             return true;
         }, e -> false);
