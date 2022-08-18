@@ -48,7 +48,7 @@ public class TGS_TimeUtils {
             if (lngDate == null) {
                 return false;
             }
-            var date = TGS_Time.of(lngDate, true);
+            var date = TGS_Time.ofDate(lngDate);
             var maxMonthDays = 0;
             switch (date.getMonth()) {
                 case 1:
@@ -80,7 +80,7 @@ public class TGS_TimeUtils {
             if (lngTime == null) {
                 return false;
             }
-            var time = TGS_Time.of(lngTime, false);
+            var time = TGS_Time.ofTime(lngTime);
             return time.getHour() >= 0 && time.getHour() <= 23 && time.getMinute() >= 0 && time.getMinute() <= 59 && time.getSecond() >= 0 && time.getSecond() <= 59;
         }, e -> false);
     }
