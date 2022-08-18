@@ -24,6 +24,14 @@ public class TGS_Time implements IsSerializable {
         return of(new Date(millis));
     }
 
+    public static TGS_Time ofDate(Long date) {
+        return of(date, true);
+    }
+    
+    public static TGS_Time ofTime(Long time) {
+        return of(time, false);
+    }
+    
     public static TGS_Time of(Long dateOrTime, boolean trueDate_falseTime) {
         if (dateOrTime == null) {
             return null;
