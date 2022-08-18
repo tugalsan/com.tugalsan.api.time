@@ -57,7 +57,7 @@ public class TGS_Time implements IsSerializable {
     }
 
     //09.01.2021 20:54:23
-    public static TGS_Time toCalender(CharSequence calenderText, char dateDelim) {
+    public static TGS_Time ofCalender(CharSequence calenderText, char dateDelim) {
         if (calenderText == null) {
             return null;
         }
@@ -65,8 +65,8 @@ public class TGS_Time implements IsSerializable {
         if (split.length != 2) {
             return null;
         }
-        var date = toDate(split[0], dateDelim);
-        var time = toTimeFull(split[1]);
+        var date = ofDate(split[0], dateDelim);
+        var time = ofTimeFull(split[1]);
         if (date == null || time == null) {
             return null;
         }
@@ -324,7 +324,7 @@ public class TGS_Time implements IsSerializable {
         return new TGS_Time(TGS_Time.getCurrentYear() * 10000 + 12 * 100 + 31);
     }
 
-    public static TGS_Time toTimeFull(String time) {
+    public static TGS_Time ofTimeFull(String time) {
         return TGS_UnSafe.compile(() -> {
             if (time == null || time.length() != 8) {
                 return null;
@@ -349,7 +349,7 @@ public class TGS_Time implements IsSerializable {
         }, e -> null);
     }
 
-    public static TGS_Time toTimeSimplified(String time) {
+    public static TGS_Time ofTimeSimplified(String time) {
         return TGS_UnSafe.compile(() -> {
             var time0 = time;
             if (time0 == null) {
@@ -396,7 +396,7 @@ public class TGS_Time implements IsSerializable {
         return TGS_StringUtils.make4Chars(year) + "-" + TGS_StringUtils.make2Chars(month);
     }
 
-    public static TGS_Time toDateHTML5(String YYYY_MM_DD) {
+    public static TGS_Time ofDateHTML5(String YYYY_MM_DD) {
         if (YYYY_MM_DD == null || "YYYY_MM_DD".length() != YYYY_MM_DD.length()) {
             return null;
         }
@@ -415,36 +415,36 @@ public class TGS_Time implements IsSerializable {
         return new TGS_Time(year * 10000 + month * 100 + day);
     }
 
-    public static TGS_Time toDateAndTime(long date, long time) {
+    public static TGS_Time ofDateAndTime(long date, long time) {
         return new TGS_Time(date, time);
     }
 
-    public static TGS_Time toDate(long date) {
+    public static TGS_Time ofDate(long date) {
         return new TGS_Time(date, true);
     }
 
-    public static TGS_Time toTime(long time) {
+    public static TGS_Time ofTime(long time) {
         return new TGS_Time(time, false);
     }
 
-    public static TGS_Time toDate(String date) {
+    public static TGS_Time ofDate(String date) {
         return TGS_UnSafe.compile(() -> {
             TGS_Time d;
-            d = toDate(date, ' ');
+            d = ofDate(date, ' ');
             if (d == null) {
-                d = toDate(date, '/');
+                d = ofDate(date, '/');
             }
             if (d == null) {
-                d = toDate(date, '.');
+                d = ofDate(date, '.');
             }
             if (d == null) {
-                d = toDate(date, '-');
+                d = ofDate(date, '-');
             }
             return d;
         }, e -> null);
     }
 
-    public static TGS_Time toDate(String date, char delim) {
+    public static TGS_Time ofDate(String date, char delim) {
         return TGS_UnSafe.compile(() -> {
             var date0 = date;
             if (date0 == null) {
