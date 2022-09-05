@@ -44,6 +44,19 @@ public class TGS_Time implements IsSerializable {
         return ofTime(TGS_CastUtils.toLong(date));
     }
 
+    public static TGS_Time of(Long date, Long time) {
+        if (date == null && time == null) {
+            return null;
+        }
+        if (date == null) {
+            return ofTime(time);
+        }
+        if (time == null) {
+            return ofDate(date);
+        }
+        return new TGS_Time(date, time);
+    }
+
     public static TGS_Time of(Long dateOrTime, Type type) {
         if (dateOrTime == null) {
             return null;
@@ -288,7 +301,6 @@ public class TGS_Time implements IsSerializable {
 //        setDate(date);
 //        setTimeNow();
 //    }
-
     private TGS_Time(long dateOrTime, Type type) {
         if (type == Type.DATE_ASTRUE) {
             setDate(dateOrTime);
