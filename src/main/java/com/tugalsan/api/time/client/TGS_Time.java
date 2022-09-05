@@ -10,6 +10,10 @@ import java.util.stream.*;
 
 public class TGS_Time implements IsSerializable {
 
+    public enum Type {
+        DATE_ASTRUE, TIME_ASFALSE
+    }
+
     public static long FIX_TimeUTCOffset = 0L;
     public static int FIX_TimeZoneOffset = 0;
 
@@ -25,18 +29,26 @@ public class TGS_Time implements IsSerializable {
     }
 
     public static TGS_Time ofDate(Long date) {
-        return of(date, true);
+        return of(date, Type.DATE_ASTRUE);
     }
-    
+
+    public static TGS_Time ofDateLong(CharSequence date) {
+        return ofDate(TGS_CastUtils.toLong(date));
+    }
+
     public static TGS_Time ofTime(Long time) {
-        return of(time, false);
+        return of(time, Type.TIME_ASFALSE);
     }
-    
-    public static TGS_Time of(Long dateOrTime, boolean trueDate_falseTime) {
+
+    public static TGS_Time ofTimeLong(CharSequence date) {
+        return ofTime(TGS_CastUtils.toLong(date));
+    }
+
+    public static TGS_Time of(Long dateOrTime, Type type) {
         if (dateOrTime == null) {
             return null;
         }
-        return new TGS_Time(dateOrTime, trueDate_falseTime);
+        return new TGS_Time(dateOrTime, type);
     }
 
     public static TGS_Time of(Date date) {
@@ -260,25 +272,25 @@ public class TGS_Time implements IsSerializable {
 //        month = backupMonths;
 //        year = backupYears;
 //    }
-    public TGS_Time(Date date) {
+    private TGS_Time(Date date) {
         setDateAndTimeByDate(date);
     }
 
 //    public TK_GWTDate(JsDate date) {
 //        setDateAndTimeByDate(date);
 //    }
-    public TGS_Time() {
+    private TGS_Time() {
 //        setDateAndTimeByDate(JsDate.create());
         setDateAndTimeByDate(new Date());
     }
 
-    public TGS_Time(long date) {
-        setDate(date);
-        setTimeNow();
-    }
+//    public TGS_Time(long date) {
+//        setDate(date);
+//        setTimeNow();
+//    }
 
-    public TGS_Time(long dateOrTime, boolean trueDate_falseTime) {
-        if (trueDate_falseTime) {
+    private TGS_Time(long dateOrTime, Type type) {
+        if (type == Type.DATE_ASTRUE) {
             setDate(dateOrTime);
             setTimeNow();
         } else {
@@ -287,7 +299,7 @@ public class TGS_Time implements IsSerializable {
         }
     }
 
-    public TGS_Time(long date, long time) {
+    private TGS_Time(long date, long time) {
         setDate(date);
         setTime(time);
     }
@@ -325,11 +337,11 @@ public class TGS_Time implements IsSerializable {
     }
 
     public static TGS_Time getBeginningOfThisYear() {
-        return new TGS_Time(TGS_Time.getCurrentYear() * 10000 + 1 * 100 + 1);
+        return ofDate(TGS_Time.getCurrentYear() * 10000 + 1 * 100 + 1);
     }
 
     public static TGS_Time getEndingOfThisYear() {
-        return new TGS_Time(TGS_Time.getCurrentYear() * 10000 + 12 * 100 + 31);
+        return ofDate(TGS_Time.getCurrentYear() * 10000 + 12 * 100 + 31);
     }
 
     public static TGS_Time ofTimeFull(String time) {
@@ -420,7 +432,7 @@ public class TGS_Time implements IsSerializable {
         if (day == null) {
             return null;
         }
-        return new TGS_Time(year * 10000 + month * 100 + day);
+        return ofDate(year * 10000 + month * 100 + day);
     }
 
     public static TGS_Time ofDateAndTime(long date, long time) {
@@ -428,11 +440,11 @@ public class TGS_Time implements IsSerializable {
     }
 
     public static TGS_Time ofDate(long date) {
-        return new TGS_Time(date, true);
+        return new TGS_Time(date, Type.DATE_ASTRUE);
     }
 
     public static TGS_Time ofTime(long time) {
-        return new TGS_Time(time, false);
+        return new TGS_Time(time, Type.TIME_ASFALSE);
     }
 
     public static TGS_Time ofDate(String date) {
@@ -591,7 +603,7 @@ public class TGS_Time implements IsSerializable {
     }
 
     public int getDayOfYear() {
-        var d = new TGS_Time(20100101);
+        var d = ofDate(20100101);
         d.setYear(year);
         var diff = 1;
         while (d.hasSmallerDateThan(this)) {
