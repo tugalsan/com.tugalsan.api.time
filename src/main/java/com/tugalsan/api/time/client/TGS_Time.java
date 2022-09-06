@@ -21,7 +21,21 @@ public class TGS_Time implements IsSerializable {
         return new TGS_Time();
     }
 
-    public static TGS_Time of(Long millis) {
+    public static TGS_Time ofYearPrevious() {
+        return new TGS_Time();
+    }
+
+    public static TGS_Time ofYearNext() {
+        return new TGS_Time();
+    }
+
+    public static TGS_Time ofMinutes10Ago() {
+        var now = of();
+        now.incrementMinute(-10);
+        return now;
+    }
+
+    public static TGS_Time ofMillis(Long millis) {
         if (millis == null) {
             return null;
         }
