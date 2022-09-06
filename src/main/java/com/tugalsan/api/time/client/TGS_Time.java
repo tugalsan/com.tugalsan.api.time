@@ -29,9 +29,9 @@ public class TGS_Time implements IsSerializable {
         return new TGS_Time();
     }
 
-    public static TGS_Time ofMinutes10Ago() {
+    public static TGS_Time ofMinutesAgo(int positiveMinutes) {
         var now = of();
-        now.incrementMinute(-10);
+        now.incrementMinute(-positiveMinutes);
         return now;
     }
 
