@@ -21,17 +21,39 @@ public class TGS_Time implements IsSerializable {
         return new TGS_Time();
     }
 
-    public static TGS_Time ofYearPrevious() {
-        return new TGS_Time();
+    public static TGS_Time ofDayAgo(int positiveDays) {
+        var now = of();
+        now.incrementDay(-positiveDays);
+        return now;
     }
 
-    public static TGS_Time ofYearNext() {
-        return new TGS_Time();
+    public static TGS_Time ofDayNext(int positiveDays) {
+        var now = of();
+        now.incrementDay(positiveDays);
+        return now;
+    }
+
+    public static TGS_Time ofYearAgo(int positiveYears) {
+        var now = of();
+        now.incrementYear(-positiveYears);
+        return now;
+    }
+
+    public static TGS_Time ofYearNext(int positiveYears) {
+        var now = of();
+        now.incrementYear(positiveYears);
+        return now;
     }
 
     public static TGS_Time ofMinutesAgo(int positiveMinutes) {
         var now = of();
         now.incrementMinute(-positiveMinutes);
+        return now;
+    }
+
+    public static TGS_Time ofMinutesNext(int positiveMinutes) {
+        var now = of();
+        now.incrementMinute(positiveMinutes);
         return now;
     }
 
