@@ -66,6 +66,7 @@ public class TS_TimeUtils {
             p.waitFor();
             return true;
         }, e -> {
+            System.out.println(TS_TimeUtils.class.getSimpleName() + "->execute(CharSequence \"" + commandLine + "\")");
             e.printStackTrace();
             return false;
         });
