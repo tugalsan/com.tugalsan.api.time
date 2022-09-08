@@ -58,7 +58,16 @@ public class TS_TimeUtils {
         return is.length() < 2 ? TGS_StringUtils.concat("0", is) : is;
     }
 
-    private static boolean execute(String commandLine) {
-        return TGS_UnSafe.compile(() -> Runtime.getRuntime().exec(commandLine) != null, e -> false);
+    
+    //NO DEP FUNCTION
+    private static boolean execute(CharSequence commandLine) {
+        return TGS_UnSafe.compile(() -> {
+            var p = Runtime.getRuntime().exec(commandLine.toString());
+            p.waitFor();
+            return true;
+        }, e -> {
+            e.printStackTrace();
+            return false;
+        });
     }
 }
