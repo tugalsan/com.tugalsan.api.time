@@ -11,8 +11,11 @@ import java.time.zone.*;
 import java.util.*;
 import java.util.concurrent.*;
 
-@Deprecated
 public class TS_TimeUtils {
+
+    public static Instant toInstant(Duration duration) {
+        return Instant.now().plusSeconds(duration.getSeconds());
+    }
 
     public static String getTimeZoneId(TimeZone timeZone) {
         var milliDiff = Calendar.getInstance().get(Calendar.ZONE_OFFSET);
@@ -58,7 +61,6 @@ public class TS_TimeUtils {
         return is.length() < 2 ? TGS_StringUtils.concat("0", is) : is;
     }
 
-    
     //NO DEP FUNCTION
     private static boolean execute(CharSequence commandLine) {
         return TGS_UnSafe.compile(() -> {
