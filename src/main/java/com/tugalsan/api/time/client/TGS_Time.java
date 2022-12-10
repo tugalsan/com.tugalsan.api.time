@@ -57,6 +57,18 @@ public class TGS_Time implements IsSerializable {
         return now;
     }
 
+    public static TGS_Time ofSecondsAgo(int positiveSeconds) {
+        var now = of();
+        now.incrementSecond(-positiveSeconds);
+        return now;
+    }
+
+    public static TGS_Time ofSecondsNext(int positiveSeconds) {
+        var now = of();
+        now.incrementSecond(positiveSeconds);
+        return now;
+    }
+
     public static TGS_Time ofMillis(Long millis) {
         if (millis == null) {
             return null;
