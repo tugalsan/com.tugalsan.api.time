@@ -56,6 +56,7 @@ public class TS_TimeUtils {
         }
     }
 
+    //NO DEP FUNCTION
     private static String make2Chars(int i) {
         var is = String.valueOf(i);
         return is.length() < 2 ? TGS_StringUtils.concat("0", is) : is;
