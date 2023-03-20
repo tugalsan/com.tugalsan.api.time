@@ -40,7 +40,7 @@ public class TS_TimeUtils {
     }
 
     public static boolean setDateAndTime(TGS_Time dateAndTime) {
-        if (System.getProperty("os.name").toLowerCase(Locale.ROOT).startsWith("windows")) {
+        if (Platform.isWindows()) {
             var st = new SYSTEMTIME();
             st.wYear = (short) dateAndTime.getYear();
             st.wMonth = (short) dateAndTime.getMonth();
