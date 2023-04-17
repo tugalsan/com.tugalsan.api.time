@@ -44,7 +44,7 @@ public class TGS_TimeUtils {
     }
 
     public static boolean isValidDate(Long lngDate) {
-        return TGS_UnSafe.compile(() -> {
+        return TGS_UnSafe.call(() -> {
             if (lngDate == null) {
                 return false;
             }
@@ -76,7 +76,7 @@ public class TGS_TimeUtils {
     }
 
     public static boolean isValidTime(Long lngTime) {
-        return TGS_UnSafe.compile(() -> {
+        return TGS_UnSafe.call(() -> {
             if (lngTime == null) {
                 return false;
             }

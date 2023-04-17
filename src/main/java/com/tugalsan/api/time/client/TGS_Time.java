@@ -405,7 +405,7 @@ public class TGS_Time implements IsSerializable {
     }
 
     public static TGS_Time ofTimeFull(String time) {
-        return TGS_UnSafe.compile(() -> {
+        return TGS_UnSafe.call(() -> {
             if (time == null || time.length() != 8) {
                 return null;
             }
@@ -430,7 +430,7 @@ public class TGS_Time implements IsSerializable {
     }
 
     public static TGS_Time ofTimeSimplified(String time) {
-        return TGS_UnSafe.compile(() -> {
+        return TGS_UnSafe.call(() -> {
             var time0 = time;
             if (time0 == null) {
                 return null;
@@ -508,7 +508,7 @@ public class TGS_Time implements IsSerializable {
     }
 
     public static TGS_Time ofDate(String date) {
-        return TGS_UnSafe.compile(() -> {
+        return TGS_UnSafe.call(() -> {
             TGS_Time d;
             d = ofDate(date, ' ');
             if (d == null) {
@@ -525,7 +525,7 @@ public class TGS_Time implements IsSerializable {
     }
 
     public static TGS_Time ofDate(String date, char delim) {
-        return TGS_UnSafe.compile(() -> {
+        return TGS_UnSafe.call(() -> {
             var date0 = date;
             if (date0 == null) {
                 return null;

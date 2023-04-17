@@ -50,8 +50,8 @@ public class TS_TimeUtils {
             st.wSecond = (short) dateAndTime.getSecond();
             return WinKernel32.instance.SetLocalTime(st);
         } else {
-            var b1 = execute(TGS_StringUtils.concat("date +%Y%m%d -s \"" + dateAndTime.getYear(), make2Chars(dateAndTime.getMonth()), make2Chars(dateAndTime.getDay()), "\""));
-            var b2 = execute(TGS_StringUtils.concat("date +%T -s \"", make2Chars(dateAndTime.getHour()), ":", make2Chars(dateAndTime.getMinute()), ":", make2Chars(dateAndTime.getSecond()), "\""));
+            var b1 = run(TGS_StringUtils.concat("date +%Y%m%d -s \"" + dateAndTime.getYear(), make2Chars(dateAndTime.getMonth()), make2Chars(dateAndTime.getDay()), "\""));
+            var b2 = run(TGS_StringUtils.concat("date +%T -s \"", make2Chars(dateAndTime.getHour()), ":", make2Chars(dateAndTime.getMinute()), ":", make2Chars(dateAndTime.getSecond()), "\""));
             return b1 && b2;
         }
     }
@@ -63,13 +63,13 @@ public class TS_TimeUtils {
     }
 
     //NO DEP FUNCTION
-    private static boolean execute(CharSequence commandLine) {
-        return TGS_UnSafe.compile(() -> {
+    private static boolean run(CharSequence commandLine) {
+        return TGS_UnSafe.call(() -> {
             var p = Runtime.getRuntime().exec(commandLine.toString());
             p.waitFor();
             return true;
         }, e -> {
-            System.out.println(TS_TimeUtils.class.getSimpleName() + "->execute(CharSequence \"" + commandLine + "\")");
+            System.out.println(TS_TimeUtils.class.getSimpleName() + "->run(CharSequence \"" + commandLine + "\")");
             e.printStackTrace();
             return false;
         });
