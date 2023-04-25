@@ -941,34 +941,58 @@ public class TGS_Time implements IsSerializable {
     }
 
     public boolean hasGreaterDateThan(TGS_Time date) {
+        if (date == null) {
+            return false;
+        }
         return getDate() > date.getDate();
     }
 
     public boolean hasGreaterDateThanOrEqual(TGS_Time date) {
+        if (date == null) {
+            return false;
+        }
         return getDate() >= date.getDate();
     }
 
     public boolean hasGreaterTimeThan(TGS_Time time) {
+        if (time == null) {
+            return false;
+        }
         return getTime() > time.getTime();
     }
 
     public boolean hasGreaterTimeThanOrEqual(TGS_Time time) {
+        if (time == null) {
+            return false;
+        }
         return getTime() >= time.getTime();
     }
 
     public boolean hasSmallerDateThan(TGS_Time date) {
+        if (date == null) {
+            return false;
+        }
         return getDate() < date.getDate();
     }
 
     public boolean hasSmallerDateThanOrEqual(TGS_Time date) {
+        if (date == null) {
+            return false;
+        }
         return getDate() <= date.getDate();
     }
 
     public boolean hasSmallerTimeThan(TGS_Time time) {
+        if (time == null) {
+            return false;
+        }
         return getTime() < time.getTime();
     }
 
     public boolean hasSmallerTimeThanOrEqual(TGS_Time time) {
+        if (time == null) {
+            return false;
+        }
         return getTime() <= time.getTime();
     }
 
@@ -993,10 +1017,16 @@ public class TGS_Time implements IsSerializable {
     }
 
     public boolean hasEqualDateWith(TGS_Time date) {
+        if (date == null) {
+            return false;
+        }
         return date.getDate() == getDate();
     }
 
     public boolean hasEqualTimeWith(TGS_Time time) {
+        if (time == null) {
+            return false;
+        }
         return time.getTime() == getTime();
     }
 
