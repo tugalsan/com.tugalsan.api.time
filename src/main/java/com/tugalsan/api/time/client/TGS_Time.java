@@ -404,20 +404,20 @@ public class TGS_Time implements IsSerializable {
         return ofDate(TGS_Time.getCurrentYear() * 10000 + 12 * 100 + 31);
     }
 
-    public static TGS_Time ofTimeFull(String time) {
+    public static TGS_Time ofTimeFull(CharSequence time) {
         return TGS_UnSafe.call(() -> {
             if (time == null || time.length() != 8) {
                 return null;
             }
-            var hri = TGS_CastUtils.toInteger(time.substring(0, 2));
+            var hri = TGS_CastUtils.toInteger(time.toString().substring(0, 2));
             if (hri == null) {
                 return null;
             }
-            var mni = TGS_CastUtils.toInteger(time.substring(3, 5));
+            var mni = TGS_CastUtils.toInteger(time.toString().substring(3, 5));
             if (mni == null) {
                 return null;
             }
-            var sci = TGS_CastUtils.toInteger(time.substring(6, 8));
+            var sci = TGS_CastUtils.toInteger(time.toString().substring(6, 8));
             if (sci == null) {
                 return null;
             }
@@ -429,16 +429,16 @@ public class TGS_Time implements IsSerializable {
         }, e -> null);
     }
 
-    public static TGS_Time ofTimeSimplified(String time) {
+    public static TGS_Time ofTimeSimplified(CharSequence time) {
         return TGS_UnSafe.call(() -> {
             var time0 = time;
             if (time0 == null) {
                 return null;
             }
-            time0 = time0.trim();
-            var i = time0.indexOf(" ");
+            time0 = time0.toString().trim();
+            var i = time0.toString().indexOf(" ");
             if (i == -1) {
-                i = time0.indexOf(":");
+                i = time0.toString().indexOf(":");
                 if (i == -1) {
                     var ii = TGS_CastUtils.toInteger(time0);
                     if (ii == null) {
@@ -452,11 +452,11 @@ public class TGS_Time implements IsSerializable {
                     }
                 }
             }
-            var hri = TGS_CastUtils.toInteger(time0.substring(0, i));
+            var hri = TGS_CastUtils.toInteger(time0.toString().substring(0, i));
             if (hri == null) {
                 return null;
             }
-            var mni = TGS_CastUtils.toInteger(time0.substring(i + 1));
+            var mni = TGS_CastUtils.toInteger(time0.toString().substring(i + 1));
             if (mni == null) {
                 return null;
             }
