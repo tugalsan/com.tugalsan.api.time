@@ -138,7 +138,7 @@ public class TGS_Time implements IsSerializable {
     }
 
     //09.01.2021 20:54:23
-    public static TGS_Time ofCalender(CharSequence calenderText, char dateDelim) {
+    public static TGS_Time ofCalender_DD_MM_YYYY_HH_MM_SS(CharSequence calenderText, char dateDelim) {
         if (calenderText == null) {
             return null;
         }
@@ -147,7 +147,7 @@ public class TGS_Time implements IsSerializable {
             return null;
         }
         var date = ofDate(split[0], dateDelim);
-        var time = ofTimeFull(split[1]);
+        var time = ofTime_HH_MM_SS(split[1]);
         if (date == null || time == null) {
             return null;
         }
@@ -397,14 +397,14 @@ public class TGS_Time implements IsSerializable {
     }
 
     public static TGS_Time getBeginningOfThisYear() {
-        return ofDate(TGS_Time.getCurrentYear() * 10000 + 1 * 100 + 1);
+        return ofDate(TGS_Time.getCurrentYear() * 10000 + 1L * 100 + 1);
     }
 
     public static TGS_Time getEndingOfThisYear() {
-        return ofDate(TGS_Time.getCurrentYear() * 10000 + 12 * 100 + 31);
+        return ofDate(TGS_Time.getCurrentYear() * 10000 + 12L * 100 + 31);
     }
 
-    public static TGS_Time ofTimeFull(CharSequence time) {
+    public static TGS_Time ofTime_HH_MM_SS(CharSequence time) {
         return TGS_UnSafe.call(() -> {
             if (time == null || time.length() != 8) {
                 return null;
@@ -429,7 +429,46 @@ public class TGS_Time implements IsSerializable {
         }, e -> null);
     }
 
-    public static TGS_Time ofTimeSimplified(CharSequence time) {
+    public static TGS_Time ofTime_MM_SS(CharSequence time) {
+        return TGS_UnSafe.call(() -> {
+            var time0 = time;
+            if (time0 == null) {
+                return null;
+            }
+            time0 = time0.toString().trim();
+            var i = time0.toString().indexOf(" ");
+            if (i == -1) {
+                i = time0.toString().indexOf(":");
+                if (i == -1) {
+                    var ii = TGS_CastUtils.toInteger(time0);
+                    if (ii == null) {
+                        return null;
+                    } else {
+                        TGS_Time rt = new TGS_Time();
+                        rt.setHour(0);
+                        rt.setMinute(ii);
+                        rt.setSecond(0);
+                        return rt;
+                    }
+                }
+            }
+            var mni = TGS_CastUtils.toInteger(time0.toString().substring(0, i));
+            if (mni == null) {
+                return null;
+            }
+            var sci = TGS_CastUtils.toInteger(time0.toString().substring(i + 1));
+            if (sci == null) {
+                return null;
+            }
+            var t = new TGS_Time();
+            t.setHour(0);
+            t.setMinute(mni);
+            t.setSecond(sci);
+            return t;
+        }, e -> null);
+    }
+
+    public static TGS_Time ofTime_HH_MM(CharSequence time) {
         return TGS_UnSafe.call(() -> {
             var time0 = time;
             if (time0 == null) {
@@ -468,15 +507,15 @@ public class TGS_Time implements IsSerializable {
         }, e -> null);
     }
 
-    public String toStringHTML5_YYYY_MM_DD() {
+    public String toString_YYYY_MM_DD() {
         return TGS_StringUtils.make4Chars(year) + "-" + TGS_StringUtils.make2Chars(month) + "-" + TGS_StringUtils.make2Chars(day);
     }
 
-    public String toStringHTML5_YYYY_MM() {
+    public String toString_YYYY_MM() {
         return TGS_StringUtils.make4Chars(year) + "-" + TGS_StringUtils.make2Chars(month);
     }
 
-    public static TGS_Time ofDateHTML5(String YYYY_MM_DD) {
+    public static TGS_Time ofDate_YYYY_MM_DD(String YYYY_MM_DD) {
         if (YYYY_MM_DD == null || "YYYY_MM_DD".length() != YYYY_MM_DD.length()) {
             return null;
         }
@@ -492,19 +531,11 @@ public class TGS_Time implements IsSerializable {
         if (day == null) {
             return null;
         }
-        return ofDate(year * 10000 + month * 100 + day);
+        return ofDate(year * 10000 + month * 100L + day);
     }
 
     public static TGS_Time ofDateAndTime(long date, long time) {
         return new TGS_Time(date, time);
-    }
-
-    public static TGS_Time ofDate(long date) {
-        return new TGS_Time(date, Type.DATE_ASTRUE);
-    }
-
-    public static TGS_Time ofTime(long time) {
-        return new TGS_Time(time, Type.TIME_ASFALSE);
     }
 
     public static TGS_Time ofDate(String date) {
@@ -663,7 +694,7 @@ public class TGS_Time implements IsSerializable {
     }
 
     public int getDayOfYear() {
-        var d = ofDate(20100101);
+        var d = ofDate(20100101L);
         d.setYear(year);
         var diff = 1;
         while (d.hasSmallerDateThan(this)) {
