@@ -508,11 +508,11 @@ public class TGS_Time implements IsSerializable {
     }
 
     public String toString_YYYY_MM_DD() {
-        return TGS_StringUtils.make4Chars(year) + "-" + TGS_StringUtils.make2Chars(month) + "-" + TGS_StringUtils.make2Chars(day);
+        return TGS_StringIntegerUtils.make4Chars(year) + "-" + TGS_StringIntegerUtils.make2Chars(month) + "-" + TGS_StringIntegerUtils.make2Chars(day);
     }
 
     public String toString_YYYY_MM() {
-        return TGS_StringUtils.make4Chars(year) + "-" + TGS_StringUtils.make2Chars(month);
+        return TGS_StringIntegerUtils.make4Chars(year) + "-" + TGS_StringIntegerUtils.make2Chars(month);
     }
 
     public static TGS_Time ofDate_YYYY_MM_DD(String YYYY_MM_DD) {
@@ -604,7 +604,7 @@ public class TGS_Time implements IsSerializable {
     }
 
     public String getDateStamp() {
-        return TGS_StringUtils.concat(String.valueOf(year), "-", TGS_StringUtils.make2Chars(month), "-", TGS_StringUtils.make2Chars(day), " 00:00:00.000");
+        return TGS_StringUtils.concat(String.valueOf(year), "-", TGS_StringIntegerUtils.make2Chars(month), "-", TGS_StringIntegerUtils.make2Chars(day), " 00:00:00.000");
     }
 
     public static int getMaxDaysOfYear(int year) {
@@ -741,7 +741,7 @@ public class TGS_Time implements IsSerializable {
         date -= (long) m;
         date /= 100L;
         var y = (int) date;
-        return TGS_StringUtils.concat(TGS_StringUtils.make2Chars(d), ".", TGS_StringUtils.make2Chars(m), "." + TGS_StringUtils.make4Chars(y));
+        return TGS_StringUtils.concat(TGS_StringIntegerUtils.make2Chars(d), ".", TGS_StringIntegerUtils.make2Chars(m), "." + TGS_StringIntegerUtils.make4Chars(y));
     }
 
     public static String toString_timeOnly_now() {
@@ -764,7 +764,7 @@ public class TGS_Time implements IsSerializable {
         time -= (long) m;
         time /= 100L;
         var h = (int) time;
-        return TGS_StringUtils.concat(TGS_StringUtils.make2Chars(h), ":", TGS_StringUtils.make2Chars(m), ":", TGS_StringUtils.make2Chars(s));
+        return TGS_StringUtils.concat(TGS_StringIntegerUtils.make2Chars(h), ":", TGS_StringIntegerUtils.make2Chars(m), ":", TGS_StringIntegerUtils.make2Chars(s));
     }
 
     @Deprecated //JUST CREATE A NEW OBJECT
