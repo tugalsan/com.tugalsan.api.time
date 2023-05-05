@@ -769,15 +769,8 @@ public class TGS_Time implements IsSerializable {
         return day == 0 && month == 0 && year == 2000;
     }
 
-    @Deprecated //JUST CREATE A NEW OBJECT
     public final TGS_Time setToTodayAndNow() {
-        var now = new TGS_Time();
-        second = now.second;
-        minute = now.minute;
-        hour = now.hour;
-        day = now.day;
-        month = now.month;
-        year = now.year;
+        setDateAndTimeByDate(new Date());
         return this;
     }
 
