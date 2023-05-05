@@ -78,10 +78,7 @@ public class TGS_Time implements IsSerializable {
         return now;
     }
 
-    public static TGS_Time ofMillis(Long millis) {
-        if (millis == null) {
-            return null;
-        }
+    public static TGS_Time ofMillis(long millis) {
         return of(new Date(millis));
     }
 
@@ -103,7 +100,7 @@ public class TGS_Time implements IsSerializable {
 
     public static TGS_Time of(Long date, Long time) {
         if (date == null && time == null) {
-            return null;
+            return new TGS_Time();
         }
         if (date == null) {
             return ofTime(time);
