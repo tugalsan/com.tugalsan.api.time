@@ -1,6 +1,5 @@
 package com.tugalsan.api.time.client;
 
-//import com.google.gwt.core.client.JsDate;
 import com.google.gwt.user.client.rpc.*;
 import com.tugalsan.api.cast.client.*;
 import com.tugalsan.api.string.client.*;
@@ -9,10 +8,20 @@ import java.util.*;
 import java.util.stream.*;
 
 public class TGS_Time implements IsSerializable {
-
-    public enum Type {
-        DATE_ASTRUE, TIME_ASFALSE
-    }
+//import com.google.gwt.core.client.JsDate;
+//NO NEED FOR JsDate :)
+//    public TGS_Time(JsDate date) {
+//        setDateAndTimeByDate(date);//JsDate.create()
+//    }
+//    public final void setDateAndTimeByDate(JsDate date) {
+//        second = date.getSeconds();//Calendar.getInstance().get(Calendar.SECOND);
+//        minute = date.getMinutes();//Calendar.getInstance().get(Calendar.MINUTE);
+//        hour = date.getHours();//Calendar.getInstance().get(Calendar.HOUR);
+//        day = date.getDate();//Calendar.getInstance().get(Calendar.DATE);
+//        month = date.getMonth() + 1;//Calendar.getInstance().get(Calendar.MONTH) + 1;
+//        year = date.getFullYear();//Calendar.getInstance().get(Calendar.YEAR);
+//        incrementHour(FIX_HOUR);
+//    }
 
     public static long FIX_TimeUTCOffset = 0L;
     public static int FIX_TimeZoneOffset = 0;
@@ -77,7 +86,7 @@ public class TGS_Time implements IsSerializable {
     }
 
     public static TGS_Time ofDate(Long date) {
-        return of(date, Type.DATE_ASTRUE);
+        return of(date, null);
     }
 
     public static TGS_Time ofDateLong(CharSequence date) {
@@ -85,7 +94,7 @@ public class TGS_Time implements IsSerializable {
     }
 
     public static TGS_Time ofTime(Long time) {
-        return of(time, Type.TIME_ASFALSE);
+        return of(null, time);
     }
 
     public static TGS_Time ofTimeLong(CharSequence date) {
@@ -103,13 +112,6 @@ public class TGS_Time implements IsSerializable {
             return ofDate(date);
         }
         return new TGS_Time(date, time);
-    }
-
-    public static TGS_Time of(Long dateOrTime, Type type) {
-        if (dateOrTime == null) {
-            return null;
-        }
-        return new TGS_Time(dateOrTime, type);
     }
 
     public static TGS_Time of(Date date) {
@@ -163,7 +165,7 @@ public class TGS_Time implements IsSerializable {
 
     public final boolean isProperDate() {
         var maxMonthDays = 0;
-        switch (month) {
+        switch (month) {//DONT USE SWITCH EXPRESSIONS! GWT WONT LIKE U
             case 1:
             case 3:
             case 5:
@@ -257,12 +259,12 @@ public class TGS_Time implements IsSerializable {
         if (FIX_TimeUTCOffset != 0L) {
             date = new Date(date.getTime() + FIX_TimeUTCOffset);
         }
-        second = date.getSeconds();//Calendar.getInstance().get(Calendar.SECOND);
-        minute = date.getMinutes();//Calendar.getInstance().get(Calendar.MINUTE);
-        hour = date.getHours();//Calendar.getInstance().get(Calendar.HOUR);
-        day = date.getDate();//Calendar.getInstance().get(Calendar.DATE);
-        month = date.getMonth() + 1;//Calendar.getInstance().get(Calendar.MONTH) + 1;
-        year = date.getYear() + 1900;//Calendar.getInstance().get(Calendar.YEAR);
+        second = date.getSeconds();
+        minute = date.getMinutes();
+        hour = date.getHours();
+        day = date.getDate();
+        month = date.getMonth() + 1;
+        year = date.getYear() + 1900;
         if (FIX_TimeZoneOffset != 0) {
             incrementHour(FIX_TimeZoneOffset);
         }
@@ -284,15 +286,6 @@ public class TGS_Time implements IsSerializable {
         return toDateObject().getTime();
     }
 
-//    public final void setDateAndTimeByDate(JsDate date) {
-//        second = date.getSeconds();//Calendar.getInstance().get(Calendar.SECOND);
-//        minute = date.getMinutes();//Calendar.getInstance().get(Calendar.MINUTE);
-//        hour = date.getHours();//Calendar.getInstance().get(Calendar.HOUR);
-//        day = date.getDate();//Calendar.getInstance().get(Calendar.DATE);
-//        month = date.getMonth() + 1;//Calendar.getInstance().get(Calendar.MONTH) + 1;
-//        year = date.getFullYear();//Calendar.getInstance().get(Calendar.YEAR);
-//        incrementHour(FIX_HOUR);
-//    }
     public final TGS_Time setDateByDate(Date date) {
         var backupSeconds = second;
         var backupMintues = minute;
@@ -304,15 +297,6 @@ public class TGS_Time implements IsSerializable {
         return this;
     }
 
-//    public final void setDateByDate(JsDate date) {
-//        int backupSeconds = second;
-//        int backupMintues = minute;
-//        int backupHours = hour;
-//        setDateAndTimeByDate(date);
-//        second = backupSeconds;
-//        minute = backupMintues;
-//        hour = backupHours;
-//    }
     public final TGS_Time setTimeByDate(Date date) {
         var backupDays = day;
         var backupMonths = month;
@@ -324,44 +308,22 @@ public class TGS_Time implements IsSerializable {
         return this;
     }
 
-//    public final void setTimeByDate(JsDate date) {
-//        int backupDays = day;
-//        int backupMonths = month;
-//        int backupYears = year;
-//        setDateAndTimeByDate(date);
-//        day = backupDays;
-//        month = backupMonths;
-//        year = backupYears;
-//    }
     private TGS_Time(Date date) {
         setDateAndTimeByDate(date);
     }
 
-//    public TK_GWTDate(JsDate date) {
-//        setDateAndTimeByDate(date);
-//    }
     private TGS_Time() {
-//        setDateAndTimeByDate(JsDate.create());
         setDateAndTimeByDate(new Date());
     }
 
-//    public TGS_Time(long date) {
-//        setDate(date);
-//        setTimeNow();
-//    }
-    private TGS_Time(long dateOrTime, Type type) {
-        if (type == Type.DATE_ASTRUE) {
-            setDate(dateOrTime);
-            setTimeNow();
-        } else {
-            setTime(dateOrTime);
-            setDateToday();
+    private TGS_Time(Long date, Long time) {
+        setToTodayAndNow();
+        if (date != null) {
+            setDate(date);
         }
-    }
-
-    private TGS_Time(long date, long time) {
-        setDate(date);
-        setTime(time);
+        if (time != null) {
+            setTime(time);
+        }
     }
 
     public static int getCurrentHour() {
