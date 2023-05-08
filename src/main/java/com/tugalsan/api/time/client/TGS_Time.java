@@ -2,6 +2,7 @@ package com.tugalsan.api.time.client;
 
 import com.google.gwt.user.client.rpc.*;
 import com.tugalsan.api.cast.client.*;
+import com.tugalsan.api.charset.client.TGS_CharSetCast;
 import com.tugalsan.api.string.client.*;
 import com.tugalsan.api.unsafe.client.*;
 import java.util.*;
@@ -570,8 +571,8 @@ public class TGS_Time implements IsSerializable {
         return IntStream.rangeClosed(1, 12).map(i -> getMonthLength(i, year)).sum();
     }
 
-    public static String getDayOfWeekName(boolean turkish, int dayOfWeek) {
-        return turkish
+    public static String getDayOfWeekName(TGS_CharSetCast.Locale2Cast locale2Cast, int dayOfWeek) {
+        return locale2Cast == TGS_CharSetCast.Locale2Cast.TURKISH
                 ? new String[]{"Pazartesi", "Sali", "Carsamba", "Persembe", "Cuma", "Cumartesi", "Pazar"}[dayOfWeek - 1]
                 : new String[]{"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"}[dayOfWeek - 1];
     }

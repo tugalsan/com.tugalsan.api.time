@@ -4,6 +4,7 @@ module com.tugalsan.api.time {
     requires com.sun.jna.platform;
     requires com.tugalsan.api.cast;
     requires com.tugalsan.api.unsafe;
+    requires com.tugalsan.api.charset;
     requires com.tugalsan.api.callable;
     requires com.tugalsan.api.string;
     exports com.tugalsan.api.time.client;
