@@ -24,6 +24,14 @@ public class TGS_Time implements IsSerializable {
 //        incrementHour(FIX_HOUR);
 //    }
 
+    private TGS_Time() {
+        this(new Date());
+    }
+
+    private TGS_Time(Date date) {
+        setDateAndTimeByDate(new Date());
+    }
+
     public static long FIX_TimeUTCOffset = 0L;
     public static int FIX_TimeZoneOffset = 0;
 
@@ -100,16 +108,14 @@ public class TGS_Time implements IsSerializable {
     }
 
     public static TGS_Time of(Long date, Long time) {
-        if (date == null && time == null) {
-            return new TGS_Time();
+        var o = new TGS_Time();
+        if (date != null) {
+            o.setDate(date);
         }
-        if (date == null) {
-            return ofTime(time);
+        if (time != null) {
+            o.setTime(date);
         }
-        if (time == null) {
-            return ofDate(date);
-        }
-        return new TGS_Time(date, time);
+        return o;
     }
 
     public static TGS_Time of(Date date) {
@@ -306,24 +312,6 @@ public class TGS_Time implements IsSerializable {
         return this;
     }
 
-    private TGS_Time(Date date) {
-        setDateAndTimeByDate(date);
-    }
-
-    private TGS_Time() {
-        setDateAndTimeByDate(new Date());
-    }
-
-    private TGS_Time(Long date, Long time) {
-        setToTodayAndNow();
-        if (date != null) {
-            setDate(date);
-        }
-        if (time != null) {
-            setTime(time);
-        }
-    }
-
     public static int getCurrentHour() {
         return new TGS_Time().getHour();
     }
@@ -495,7 +483,7 @@ public class TGS_Time implements IsSerializable {
     }
 
     public static TGS_Time ofDateAndTime(long date, long time) {
-        return new TGS_Time(date, time);
+        return TGS_Time.ofDateAndTime(date, time);
     }
 
     public static TGS_Time ofDate(String date) {
@@ -595,7 +583,7 @@ public class TGS_Time implements IsSerializable {
 
     //@Override
     public TGS_Time cloneIt() {
-        return new TGS_Time(getDate(), getTime());
+        return TGS_Time.ofDateAndTime(getDate(), getTime());
     }
     private int day, month, year, hour, minute, second;
 
