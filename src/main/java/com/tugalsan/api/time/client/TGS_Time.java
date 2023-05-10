@@ -109,7 +109,7 @@ public class TGS_Time implements IsSerializable {
             o.setDate(date);
         }
         if (time != null) {
-            o.setTime(date);
+            o.setTime(time);
         }
         return o;
     }
