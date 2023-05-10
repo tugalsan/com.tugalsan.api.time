@@ -24,6 +24,10 @@ public class TGS_Time implements IsSerializable {
 //        incrementHour(FIX_HOUR);
 //    }
 
+    private TGS_Time() {
+        setDateAndTimeByDate(new Date());
+    }
+
     private TGS_Time(Date date) {
         setDateAndTimeByDate(date);
     }
@@ -32,7 +36,7 @@ public class TGS_Time implements IsSerializable {
     public static int FIX_TimeZoneOffset = 0;
 
     public static TGS_Time of() {
-        return new TGS_Time(null);
+        return new TGS_Time();
     }
 
     public static TGS_Time ofDayAgo(int positiveDays) {
@@ -88,7 +92,12 @@ public class TGS_Time implements IsSerializable {
     }
 
     public static TGS_Time ofDate(Long date) {
-        return ofDateAndTime(date, null);
+        if (date == null) {
+            return null;
+        }
+        var o = new TGS_Time();
+        o.setDate(date);
+        return o;
     }
 
     public static TGS_Time ofDateLong(CharSequence date) {
@@ -96,7 +105,12 @@ public class TGS_Time implements IsSerializable {
     }
 
     public static TGS_Time ofTime(Long time) {
-        return ofDateAndTime(null, time);
+        if (time == null) {
+            return null;
+        }
+        var o = new TGS_Time();
+        o.setTime(time);
+        return o;
     }
 
     public static TGS_Time ofTimeLong(CharSequence date) {
@@ -104,13 +118,12 @@ public class TGS_Time implements IsSerializable {
     }
 
     public static TGS_Time ofDateAndTime(Long date, Long time) {
-        var o = new TGS_Time(null);
-        if (date != null) {
-            o.setDate(date);
+        if (date == null || time == null) {
+            return null;
         }
-        if (time != null) {
-            o.setTime(time);
-        }
+        var o = new TGS_Time();
+        o.setDate(date);
+        o.setTime(time);
         return o;
     }
 
@@ -225,7 +238,7 @@ public class TGS_Time implements IsSerializable {
     }
 
     public final static TGS_Time dayOfWeek_getMonday(int day, int month, int year) {//1-7
-        var monday = new TGS_Time(null);
+        var monday = new TGS_Time();
         monday.setDay(day);
         monday.setMonth(month);
         monday.setYear(year);
@@ -242,7 +255,7 @@ public class TGS_Time implements IsSerializable {
     }
 
     public final static TGS_Time dayOfWeek_getSunday(int day, int month, int year) {//1-7
-        var sunday = new TGS_Time(null);
+        var sunday = new TGS_Time();
         sunday.setDay(day);
         sunday.setMonth(month);
         sunday.setYear(year);
@@ -256,7 +269,9 @@ public class TGS_Time implements IsSerializable {
 
     @SuppressWarnings("deprecation")
     public final TGS_Time setDateAndTimeByDate(Date date) {//DO NOT TOUCH IT: WORKS ON BOTH SERVER AND CLIENT SIDE!
-        date = date == null ? new Date() : date;
+        if (date == null) {
+            return null;
+        }
         if (FIX_TimeUTCOffset != 0L) {
             date = new Date(date.getTime() + FIX_TimeUTCOffset);
         }
@@ -310,35 +325,35 @@ public class TGS_Time implements IsSerializable {
     }
 
     public static int getCurrentHour() {
-        return new TGS_Time(null).getHour();
+        return new TGS_Time().getHour();
     }
 
     public static int getCurrentMinute() {
-        return new TGS_Time(null).getMinute();
+        return new TGS_Time().getMinute();
     }
 
     public static int getCurrentSecond() {
-        return new TGS_Time(null).getSecond();
+        return new TGS_Time().getSecond();
     }
 
     public static int getCurrentDay() {
-        return new TGS_Time(null).getDay();
+        return new TGS_Time().getDay();
     }
 
     public static int getCurrentMonth() {
-        return new TGS_Time(null).getMonth();
+        return new TGS_Time().getMonth();
     }
 
     public static int getCurrentYear() {
-        return new TGS_Time(null).getYear();
+        return new TGS_Time().getYear();
     }
 
     public static long getCurrentDate() {
-        return new TGS_Time(null).getDate();
+        return new TGS_Time().getDate();
     }
 
     public static long getCurrentTime() {
-        return new TGS_Time(null).getTime();
+        return new TGS_Time().getTime();
     }
 
     public static TGS_Time getBeginningOfThisYear() {
@@ -366,7 +381,7 @@ public class TGS_Time implements IsSerializable {
             if (sci == null) {
                 return null;
             }
-            var t = new TGS_Time(null);
+            var t = new TGS_Time();
             t.setHour(hri);
             t.setMinute(mni);
             t.setSecond(sci);
@@ -389,7 +404,7 @@ public class TGS_Time implements IsSerializable {
                     if (ii == null) {
                         return null;
                     } else {
-                        TGS_Time rt = new TGS_Time(null);
+                        TGS_Time rt = new TGS_Time();
                         rt.setHour(0);
                         rt.setMinute(ii);
                         rt.setSecond(0);
@@ -405,7 +420,7 @@ public class TGS_Time implements IsSerializable {
             if (sci == null) {
                 return null;
             }
-            var t = new TGS_Time(null);
+            var t = new TGS_Time();
             t.setHour(0);
             t.setMinute(mni);
             t.setSecond(sci);
@@ -428,7 +443,7 @@ public class TGS_Time implements IsSerializable {
                     if (ii == null) {
                         return null;
                     } else {
-                        TGS_Time rt = new TGS_Time(null);
+                        TGS_Time rt = new TGS_Time();
                         rt.setHour(ii);
                         rt.setMinute(0);
                         rt.setSecond(0);
@@ -444,7 +459,7 @@ public class TGS_Time implements IsSerializable {
             if (mni == null) {
                 return null;
             }
-            var t = new TGS_Time(null);
+            var t = new TGS_Time();
             t.setHour(hri);
             t.setMinute(mni);
             t.setSecond(0);
@@ -536,7 +551,7 @@ public class TGS_Time implements IsSerializable {
             if (yri == null) {
                 return null;
             }
-            var d = new TGS_Time(null);
+            var d = new TGS_Time();
             d.setDay(dyi);
             d.setMonth(mni);
             d.setYear(yri < 100 ? yri + 2000 : yri);
@@ -710,7 +725,7 @@ public class TGS_Time implements IsSerializable {
 
     @Deprecated //JUST CREATE A NEW OBJECT
     public final TGS_Time setTimeNow() {
-        var now = new TGS_Time(null);
+        var now = new TGS_Time();
         second = now.second;
         minute = now.minute;
         hour = now.hour;
@@ -730,7 +745,7 @@ public class TGS_Time implements IsSerializable {
 
     @Deprecated //JUST CREATE A NEW OBJECT
     public final TGS_Time setDateToday() {
-        var now = new TGS_Time(null);
+        var now = new TGS_Time();
         day = now.day;
         month = now.month;
         year = now.year;
