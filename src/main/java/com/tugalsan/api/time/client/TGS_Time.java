@@ -1,6 +1,5 @@
 package com.tugalsan.api.time.client;
 
-import com.google.gwt.user.client.rpc.*;
 import com.tugalsan.api.cast.client.*;
 import com.tugalsan.api.charset.client.TGS_CharSetCast;
 import com.tugalsan.api.string.client.*;
@@ -8,7 +7,7 @@ import com.tugalsan.api.unsafe.client.*;
 import java.util.*;
 import java.util.stream.*;
 
-public class TGS_Time implements IsSerializable {
+public class TGS_Time /*implements IsSerializable*/ {
 //import com.google.gwt.core.client.JsDate;
 //NO NEED FOR JsDate :)
 //    public TGS_Time(JsDate date) {
