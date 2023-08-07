@@ -9,7 +9,6 @@ public class TS_TimeElapsed {
         start = Instant.now();
     }
     public Instant start;
-    public Duration timeElapsed = null;
 
     public static TS_TimeElapsed of() {
         return new TS_TimeElapsed();
@@ -17,12 +16,10 @@ public class TS_TimeElapsed {
 
     public TS_TimeElapsed restart() {
         start = Instant.now();
-        timeElapsed = null;
         return this;
     }
 
-    public TS_TimeElapsed end() {
-        timeElapsed = Duration.between(start, Instant.now());
-        return this;
+    public Duration end() {
+        return Duration.between(start, Instant.now());
     }
 }
