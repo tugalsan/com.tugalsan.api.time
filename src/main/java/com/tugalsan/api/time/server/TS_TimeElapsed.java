@@ -19,7 +19,7 @@ public class TS_TimeElapsed {
         return this;
     }
 
-    public Duration end() {
+    public Duration elapsed_now() {
         return Duration.between(start, Instant.now());
     }
 }
