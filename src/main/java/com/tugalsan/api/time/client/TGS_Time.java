@@ -9,6 +9,29 @@ import java.util.*;
 import java.util.stream.*;
 
 public class TGS_Time implements Serializable/*implements IsSerializable*/ {
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof TGS_Time)) {
+            return false;
+        }
+        var other = (TGS_Time) obj;
+        return Objects.equals(second, other.second)
+                && Objects.equals(minute, other.minute)
+                && Objects.equals(hour, other.hour)
+                && Objects.equals(day, other.day)
+                && Objects.equals(month, other.month)
+                && Objects.equals(year, other.year);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(second, minute, hour, day, month, year);
+    }
+
 //import com.google.gwt.core.client.JsDate;
 //NO NEED FOR JsDate :)
 //    public TGS_Time(JsDate date) {
@@ -23,7 +46,6 @@ public class TGS_Time implements Serializable/*implements IsSerializable*/ {
 //        year = date.getFullYear();//Calendar.getInstance().get(Calendar.YEAR);
 //        incrementHour(FIX_HOUR);
 //    }
-
     private TGS_Time() {
         setDateAndTimeByDate(new Date());
     }
