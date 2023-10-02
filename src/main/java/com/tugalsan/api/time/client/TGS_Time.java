@@ -489,6 +489,16 @@ public class TGS_Time implements Serializable/*implements IsSerializable*/ {
         }, e -> null);
     }
 
+    public String toString_YYYYMMDD_HHMMSS() {
+        return TGS_StringIntegerUtils.make4Chars(year)
+                + "-" + TGS_StringIntegerUtils.make2Chars(month)
+                + "-" + TGS_StringIntegerUtils.make2Chars(day)
+                + " "
+                + "-" + TGS_StringIntegerUtils.make2Chars(hour)
+                + "-" + TGS_StringIntegerUtils.make2Chars(minute)
+                + "-" + TGS_StringIntegerUtils.make2Chars(second);
+    }
+
     public String toString_YYYY_MM_DD() {
         return TGS_StringIntegerUtils.make4Chars(year) + "-" + TGS_StringIntegerUtils.make2Chars(month) + "-" + TGS_StringIntegerUtils.make2Chars(day);
     }
