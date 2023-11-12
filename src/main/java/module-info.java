@@ -1,5 +1,4 @@
 module com.tugalsan.api.time {
-    //requires gwt.user;
     requires com.sun.jna;
     requires com.sun.jna.platform;
     requires com.tugalsan.api.cast;

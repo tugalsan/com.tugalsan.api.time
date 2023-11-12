@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.*;
 import java.util.stream.*;
 
-public class TGS_Time implements Serializable/*implements IsSerializable*/ {
+public class TGS_Time implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
