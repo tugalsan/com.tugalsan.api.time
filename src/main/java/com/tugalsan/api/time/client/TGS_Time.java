@@ -251,6 +251,10 @@ public class TGS_Time implements Serializable {
         return dayOfWeek(this);
     }
 
+    public String getDayOfWeekName(TGS_CharSetCast.Locale2Cast locale2Cast) {
+        return TGS_Time.getDayOfWeekName(locale2Cast, dayOfWeek());
+    }
+
     public final static int dayOfWeek(TGS_Time date) {//1-7
         return dayOfWeek(date.getDay(), date.getMonth(), date.getYear());
     }
