@@ -243,7 +243,7 @@ public class TGS_Time implements Serializable {
             month += 12;
             year--;
         }
-        int dow = (day + (int) ((month + 1) * 2.6) + year + (int) (year / 4) + 6 * (int) (year / 100) + (int) (year / 400) + 6) % 7;
+        var dow = (day + (int) ((month + 1) * 2.6) + year + (int) (year / 4) + 6 * (int) (year / 100) + (int) (year / 400) + 6) % 7;
         return dow == 0 ? 7 : dow;
     }
 
@@ -430,7 +430,7 @@ public class TGS_Time implements Serializable {
                     if (ii == null) {
                         return null;
                     } else {
-                        TGS_Time rt = new TGS_Time();
+                        var rt = new TGS_Time();
                         rt.setHour(0);
                         rt.setMinute(ii);
                         rt.setSecond(0);
@@ -469,7 +469,7 @@ public class TGS_Time implements Serializable {
                     if (ii == null) {
                         return null;
                     } else {
-                        TGS_Time rt = new TGS_Time();
+                        var rt = new TGS_Time();
                         rt.setHour(ii);
                         rt.setMinute(0);
                         rt.setSecond(0);

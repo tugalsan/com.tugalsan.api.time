@@ -7,7 +7,6 @@ import com.tugalsan.api.string.client.*;
 import com.tugalsan.api.time.client.*;
 import com.tugalsan.api.unsafe.client.*;
 import java.time.*;
-import java.time.zone.*;
 import java.util.*;
 import java.util.concurrent.*;
 
@@ -23,13 +22,13 @@ public class TS_TimeUtils {
     }
 
     public static ZoneOffset getOffset(TimeZone timeZone) { //for using ZoneOffsett class
-        ZoneId zi = timeZone.toZoneId();
-        ZoneRules zr = zi.getRules();
+        var zi = timeZone.toZoneId();
+        var zr = zi.getRules();
         return zr.getOffset(LocalDateTime.now());
     }
 
     public static int getOffsetHours(TimeZone timeZone) { //just hour offset
-        ZoneOffset zo = getOffset(timeZone);
+        var zo = getOffset(timeZone);
         return (int) TimeUnit.SECONDS.toHours(zo.getTotalSeconds());
     }
 
