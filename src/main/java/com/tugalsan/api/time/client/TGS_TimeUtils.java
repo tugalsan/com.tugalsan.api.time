@@ -1,6 +1,7 @@
 package com.tugalsan.api.time.client;
 
 import com.tugalsan.api.unsafe.client.*;
+import java.time.Duration;
 
 public class TGS_TimeUtils {
 
@@ -83,5 +84,12 @@ public class TGS_TimeUtils {
             var time = TGS_Time.ofTime(lngTime);
             return time.getHour() >= 0 && time.getHour() <= 23 && time.getMinute() >= 0 && time.getMinute() <= 59 && time.getSecond() >= 0 && time.getSecond() <= 59;
         }, e -> false);
+    }
+
+    public static String toString(Duration dur) {
+        return String.format("%d:%02d:%02d",
+                dur.toHours(),
+                dur.toMinutesPart(),
+                dur.toSecondsPart());
     }
 }
