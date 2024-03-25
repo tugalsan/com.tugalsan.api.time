@@ -12,6 +12,13 @@ import java.util.concurrent.*;
 
 public class TS_TimeUtils {
 
+    public static String toString(Duration dur) {
+        return String.format("%d:%02d:%02d",
+                dur.toHours(),
+                dur.toMinutesPart(),
+                dur.toSecondsPart());
+    }
+
     public static Instant toInstant(Duration duration) {
         return Instant.now().plusSeconds(duration.getSeconds());
     }
