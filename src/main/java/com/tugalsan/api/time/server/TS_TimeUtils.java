@@ -6,6 +6,7 @@ import com.sun.jna.win32.*;
 import com.tugalsan.api.string.client.*;
 import com.tugalsan.api.time.client.*;
 import com.tugalsan.api.union.client.TGS_Union;
+import com.tugalsan.api.union.server.TS_UnionUtils;
 import java.io.IOException;
 import java.time.*;
 import java.util.*;
@@ -46,7 +47,7 @@ public class TS_TimeUtils {
         WinKernel32 instance = (WinKernel32) Native.load("kernel32.dll", WinKernel32.class);
     }
 
-    public static TGS_Union<Boolean> setDateAndTime(TGS_Time dateAndTime) throws InterruptedException {
+    public static TGS_Union<Boolean> setDateAndTime(TGS_Time dateAndTime) {
         if (Platform.isWindows()) {
             var st = new SYSTEMTIME();
             st.wYear = (short) dateAndTime.getYear();
@@ -76,13 +77,15 @@ public class TS_TimeUtils {
     }
 
     //NO DEP FUNCTION
-    private static TGS_Union<Boolean> run(CharSequence commandLine) throws InterruptedException {
+    private static TGS_Union<Boolean> run(CharSequence commandLine) {
         try {
             var p = Runtime.getRuntime().exec(commandLine.toString());
             p.waitFor();
             return TGS_Union.of(true);
         } catch (IOException e) {
             return TGS_Union.ofThrowable(e);
+        } catch (InterruptedException ex) {
+            return TS_UnionUtils.throwAsRuntimeException(ex);
         }
     }
 }
