@@ -3,7 +3,6 @@ package com.tugalsan.api.time.client;
 import com.tugalsan.api.cast.client.*;
 import com.tugalsan.api.charset.client.TGS_CharSetCast;
 import com.tugalsan.api.string.client.*;
-import com.tugalsan.api.unsafe.client.*;
 import java.io.Serializable;
 import java.util.*;
 import java.util.stream.*;
@@ -391,106 +390,100 @@ public class TGS_Time implements Serializable {
     }
 
     public static TGS_Time ofTime_HH_MM_SS(CharSequence time) {
-        return TGS_UnSafe.call(() -> {
-            if (time == null || time.length() != 8) {
-                return null;
-            }
-            var hri = TGS_CastUtils.toInteger(time.toString().substring(0, 2));
-            if (hri == null) {
-                return null;
-            }
-            var mni = TGS_CastUtils.toInteger(time.toString().substring(3, 5));
-            if (mni == null) {
-                return null;
-            }
-            var sci = TGS_CastUtils.toInteger(time.toString().substring(6, 8));
-            if (sci == null) {
-                return null;
-            }
-            var t = new TGS_Time();
-            t.setHour(hri);
-            t.setMinute(mni);
-            t.setSecond(sci);
-            return t;
-        }, e -> null);
+        if (time == null || time.length() != 8) {
+            return null;
+        }
+        var hri = TGS_CastUtils.toInteger(time.toString().substring(0, 2));
+        if (hri == null) {
+            return null;
+        }
+        var mni = TGS_CastUtils.toInteger(time.toString().substring(3, 5));
+        if (mni == null) {
+            return null;
+        }
+        var sci = TGS_CastUtils.toInteger(time.toString().substring(6, 8));
+        if (sci == null) {
+            return null;
+        }
+        var t = new TGS_Time();
+        t.setHour(hri);
+        t.setMinute(mni);
+        t.setSecond(sci);
+        return t;
     }
 
     public static TGS_Time ofTime_MM_SS(CharSequence time) {
-        return TGS_UnSafe.call(() -> {
-            var time0 = time;
-            if (time0 == null) {
-                return null;
-            }
-            time0 = time0.toString().trim();
-            var i = time0.toString().indexOf(" ");
+        var time0 = time;
+        if (time0 == null) {
+            return null;
+        }
+        time0 = time0.toString().trim();
+        var i = time0.toString().indexOf(" ");
+        if (i == -1) {
+            i = time0.toString().indexOf(":");
             if (i == -1) {
-                i = time0.toString().indexOf(":");
-                if (i == -1) {
-                    var ii = TGS_CastUtils.toInteger(time0);
-                    if (ii == null) {
-                        return null;
-                    } else {
-                        var rt = new TGS_Time();
-                        rt.setHour(0);
-                        rt.setMinute(ii);
-                        rt.setSecond(0);
-                        return rt;
-                    }
+                var ii = TGS_CastUtils.toInteger(time0);
+                if (ii == null) {
+                    return null;
+                } else {
+                    var rt = new TGS_Time();
+                    rt.setHour(0);
+                    rt.setMinute(ii);
+                    rt.setSecond(0);
+                    return rt;
                 }
             }
-            var mni = TGS_CastUtils.toInteger(time0.toString().substring(0, i));
-            if (mni == null) {
-                return null;
-            }
-            var sci = TGS_CastUtils.toInteger(time0.toString().substring(i + 1));
-            if (sci == null) {
-                return null;
-            }
-            var t = new TGS_Time();
-            t.setHour(0);
-            t.setMinute(mni);
-            t.setSecond(sci);
-            return t;
-        }, e -> null);
+        }
+        var mni = TGS_CastUtils.toInteger(time0.toString().substring(0, i));
+        if (mni == null) {
+            return null;
+        }
+        var sci = TGS_CastUtils.toInteger(time0.toString().substring(i + 1));
+        if (sci == null) {
+            return null;
+        }
+        var t = new TGS_Time();
+        t.setHour(0);
+        t.setMinute(mni);
+        t.setSecond(sci);
+        return t;
     }
 
     public static TGS_Time ofTime_HH_MM(CharSequence time) {
-        return TGS_UnSafe.call(() -> {
-            var time0 = time;
-            if (time0 == null) {
-                return null;
-            }
-            time0 = time0.toString().trim();
-            var i = time0.toString().indexOf(" ");
+        var time0 = time;
+        if (time0 == null) {
+            return null;
+        }
+        time0 = time0.toString().trim();
+        var i = time0.toString().indexOf(" ");
+        if (i == -1) {
+            i = time0.toString().indexOf(":");
             if (i == -1) {
-                i = time0.toString().indexOf(":");
-                if (i == -1) {
-                    var ii = TGS_CastUtils.toInteger(time0);
-                    if (ii == null) {
-                        return null;
-                    } else {
-                        var rt = new TGS_Time();
-                        rt.setHour(ii);
-                        rt.setMinute(0);
-                        rt.setSecond(0);
-                        return rt;
-                    }
+                var ii = TGS_CastUtils.toInteger(time0);
+                if (ii == null) {
+                    return null;
+                } else {
+                    var rt = new TGS_Time();
+                    rt.setHour(ii);
+                    rt.setMinute(0);
+                    rt.setSecond(0);
+                    return rt;
                 }
             }
-            var hri = TGS_CastUtils.toInteger(time0.toString().substring(0, i));
-            if (hri == null) {
-                return null;
-            }
-            var mni = TGS_CastUtils.toInteger(time0.toString().substring(i + 1));
-            if (mni == null) {
-                return null;
-            }
-            var t = new TGS_Time();
-            t.setHour(hri);
-            t.setMinute(mni);
-            t.setSecond(0);
-            return t;
-        }, e -> null);
+        }
+        var hri = TGS_CastUtils.toInteger(time0.toString().substring(0, i));
+        if (hri == null) {
+            return null;
+        }
+        var mni = TGS_CastUtils.toInteger(time0.toString().substring(i + 1));
+        if (mni == null) {
+            return null;
+        }
+        var t = new TGS_Time();
+        t.setHour(hri);
+        t.setMinute(mni);
+        t.setSecond(0);
+        return t;
     }
 
     public String toString_YYYYMMDD_HHMMSS() {
@@ -531,68 +524,64 @@ public class TGS_Time implements Serializable {
     }
 
     public static TGS_Time ofDate(String date) {
-        return TGS_UnSafe.call(() -> {
-            TGS_Time d;
-            d = ofDate(date, ' ');
-            if (d == null) {
-                d = ofDate(date, '/');
-            }
-            if (d == null) {
-                d = ofDate(date, '.');
-            }
-            if (d == null) {
-                d = ofDate(date, '-');
-            }
-            return d;
-        }, e -> null);
+        TGS_Time d;
+        d = ofDate(date, ' ');
+        if (d == null) {
+            d = ofDate(date, '/');
+        }
+        if (d == null) {
+            d = ofDate(date, '.');
+        }
+        if (d == null) {
+            d = ofDate(date, '-');
+        }
+        return d;
     }
 
     public static TGS_Time ofDate(String date, char delim) {
-        return TGS_UnSafe.call(() -> {
-            var date0 = date;
-            if (date0 == null) {
-                return null;
-            }
-            date0 = date0.trim();
-            var i = date0.indexOf(delim);
-            if (i == -1) {
-                return null;
+        var date0 = date;
+        if (date0 == null) {
+            return null;
+        }
+        date0 = date0.trim();
+        var i = date0.indexOf(delim);
+        if (i == -1) {
+            return null;
 //            return new TK_GWTDate();
-            }
-            var j = date0.lastIndexOf(delim);
-            Integer dyi;
-            if (date0.length() >= i) {
-                dyi = TGS_CastUtils.toInteger(date0.substring(0, i));
-            } else {
-                dyi = getCurrentDay();
-            }
-            if (dyi == null) {
-                return null;
-            }
-            Integer mni;
-            if (date0.length() >= j) {
-                mni = TGS_CastUtils.toInteger(date0.substring(i + 1, j));
-            } else {
-                mni = getCurrentMonth();
-            }
-            if (mni == null) {
-                return null;
-            }
-            Integer yri;
-            if (date0.length() > j + 1) {
-                yri = TGS_CastUtils.toInteger(date0.substring(j + 1, date0.length()));
-            } else {
-                yri = getCurrentMonth();
-            }
-            if (yri == null) {
-                return null;
-            }
-            var d = new TGS_Time();
-            d.setDay(dyi);
-            d.setMonth(mni);
-            d.setYear(yri < 100 ? yri + 2000 : yri);
-            return d;
-        }, e -> null);
+        }
+        var j = date0.lastIndexOf(delim);
+        Integer dyi;
+        if (date0.length() >= i) {
+            dyi = TGS_CastUtils.toInteger(date0.substring(0, i));
+        } else {
+            dyi = getCurrentDay();
+        }
+        if (dyi == null) {
+            return null;
+        }
+        Integer mni;
+        if (date0.length() >= j) {
+            mni = TGS_CastUtils.toInteger(date0.substring(i + 1, j));
+        } else {
+            mni = getCurrentMonth();
+        }
+        if (mni == null) {
+            return null;
+        }
+        Integer yri;
+        if (date0.length() > j + 1) {
+            yri = TGS_CastUtils.toInteger(date0.substring(j + 1, date0.length()));
+        } else {
+            yri = getCurrentMonth();
+        }
+        if (yri == null) {
+            return null;
+        }
+        var d = new TGS_Time();
+        d.setDay(dyi);
+        d.setMonth(mni);
+        d.setYear(yri < 100 ? yri + 2000 : yri);
+        return d;
     }
 
     public String getDateStamp() {
@@ -825,7 +814,7 @@ public class TGS_Time implements Serializable {
         }
         return secs;
     }
-    
+
     public long getDayDifference(TGS_Time toTime) {
         var days = 0L;
         if (toTime.hasGreaterDateThan(this)) {

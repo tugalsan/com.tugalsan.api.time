@@ -5,7 +5,8 @@ import com.sun.jna.platform.win32.WinBase.*;
 import com.sun.jna.win32.*;
 import com.tugalsan.api.string.client.*;
 import com.tugalsan.api.time.client.*;
-import com.tugalsan.api.unsafe.client.*;
+import com.tugalsan.api.union.client.TGS_Union;
+import java.io.IOException;
 import java.time.*;
 import java.util.*;
 import java.util.concurrent.*;
@@ -45,7 +46,7 @@ public class TS_TimeUtils {
         WinKernel32 instance = (WinKernel32) Native.load("kernel32.dll", WinKernel32.class);
     }
 
-    public static boolean setDateAndTime(TGS_Time dateAndTime) {
+    public static TGS_Union<Boolean> setDateAndTime(TGS_Time dateAndTime) throws InterruptedException {
         if (Platform.isWindows()) {
             var st = new SYSTEMTIME();
             st.wYear = (short) dateAndTime.getYear();
@@ -54,11 +55,17 @@ public class TS_TimeUtils {
             st.wHour = (short) dateAndTime.getHour();
             st.wMinute = (short) dateAndTime.getMinute();
             st.wSecond = (short) dateAndTime.getSecond();
-            return WinKernel32.instance.SetLocalTime(st);
+            return TGS_Union.of(WinKernel32.instance.SetLocalTime(st));
         } else {
             var b1 = run(TGS_StringUtils.concat("date +%Y%m%d -s \"" + dateAndTime.getYear(), make2Chars(dateAndTime.getMonth()), make2Chars(dateAndTime.getDay()), "\""));
+            if (b1.isEmpty()) {
+                return b1;
+            }
             var b2 = run(TGS_StringUtils.concat("date +%T -s \"", make2Chars(dateAndTime.getHour()), ":", make2Chars(dateAndTime.getMinute()), ":", make2Chars(dateAndTime.getSecond()), "\""));
-            return b1 && b2;
+            if (b1.isEmpty()) {
+                return b2;
+            }
+            return TGS_Union.of(true);
         }
     }
 
@@ -69,15 +76,13 @@ public class TS_TimeUtils {
     }
 
     //NO DEP FUNCTION
-    private static boolean run(CharSequence commandLine) {
-        return TGS_UnSafe.call(() -> {
+    private static TGS_Union<Boolean> run(CharSequence commandLine) throws InterruptedException {
+        try {
             var p = Runtime.getRuntime().exec(commandLine.toString());
             p.waitFor();
-            return true;
-        }, e -> {
-            System.out.println(TS_TimeUtils.class.getSimpleName() + "->run(CharSequence \"" + commandLine + "\")");
-            e.printStackTrace();
-            return false;
-        });
+            return TGS_Union.of(true);
+        } catch (IOException e) {
+            return TGS_Union.ofThrowable(e);
+        }
     }
 }
