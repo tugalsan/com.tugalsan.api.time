@@ -85,7 +85,7 @@ public class TS_TimeUtils {
         } catch (IOException e) {
             return TGS_Union.ofThrowable(e);
         } catch (InterruptedException ex) {
-            return TS_UnionUtils.throwAsRuntimeException(ex);
+            return TS_UnionUtils.throwIfRuntimeException(ex);
         }
     }
 }
