@@ -83,7 +83,7 @@ public class TS_TimeUtils {
             p.waitFor();
             return TGS_Union.of(true);
         } catch (IOException e) {
-            return TGS_Union.ofThrowable(e);
+            return TGS_Union.ofExcuse(e);
         } catch (InterruptedException ex) {
             return TS_UnionUtils.throwAsRuntimeExceptionIfInterruptedException(ex);
         }
