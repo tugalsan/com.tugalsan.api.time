@@ -5,7 +5,7 @@ import com.sun.jna.platform.win32.WinBase.*;
 import com.sun.jna.win32.*;
 import com.tugalsan.api.string.client.*;
 import com.tugalsan.api.time.client.*;
-import com.tugalsan.api.union.client.TGS_UnionExcuse;
+import com.tugalsan.api.union.client.TGS_UnionExcuseVoid;
 import com.tugalsan.api.union.server.TS_UnionUtils;
 import java.io.IOException;
 import java.time.*;
@@ -47,7 +47,7 @@ public class TS_TimeUtils {
         WinKernel32 instance = (WinKernel32) Native.load("kernel32.dll", WinKernel32.class);
     }
 
-    public static TGS_UnionExcuse setDateAndTime(TGS_Time dateAndTime) {
+    public static TGS_UnionExcuseVoid setDateAndTime(TGS_Time dateAndTime) {
         if (Platform.isWindows()) {
             var st = new SYSTEMTIME();
             st.wYear = (short) dateAndTime.getYear();
@@ -58,9 +58,9 @@ public class TS_TimeUtils {
             st.wSecond = (short) dateAndTime.getSecond();
             var result = WinKernel32.instance.SetLocalTime(st);
             if (result) {
-                return TGS_UnionExcuse.ofVoid();
+                return TGS_UnionExcuseVoid.ofVoid();
             } else {
-                return TGS_UnionExcuse.ofExcuse(TS_TimeUtils.class.getSimpleName(), "setDateAndTime", "result is false");
+                return TGS_UnionExcuseVoid.ofExcuse(TS_TimeUtils.class.getSimpleName(), "setDateAndTime", "result is false");
             }
         } else {
             var b1 = run(TGS_StringUtils.concat("date +%Y%m%d -s \"" + dateAndTime.getYear(), make2Chars(dateAndTime.getMonth()), make2Chars(dateAndTime.getDay()), "\""));
@@ -71,7 +71,7 @@ public class TS_TimeUtils {
             if (b1.isExcuse()) {
                 return b2;
             }
-            return TGS_UnionExcuse.ofVoid();
+            return TGS_UnionExcuseVoid.ofVoid();
         }
     }
 
@@ -82,13 +82,13 @@ public class TS_TimeUtils {
     }
 
     //NO DEP FUNCTION
-    private static TGS_UnionExcuse run(CharSequence commandLine) {
+    private static TGS_UnionExcuseVoid run(CharSequence commandLine) {
         try {
             var p = Runtime.getRuntime().exec(commandLine.toString());
             p.waitFor();
-            return TGS_UnionExcuse.ofVoid();
+            return TGS_UnionExcuseVoid.ofVoid();
         } catch (IOException e) {
-            return TGS_UnionExcuse.ofExcuse(e);
+            return TGS_UnionExcuseVoid.ofExcuse(e);
         } catch (InterruptedException ex) {
             return TS_UnionUtils.throwAsRuntimeExceptionIfInterruptedException(ex);
         }
