@@ -3,6 +3,7 @@ package com.tugalsan.api.time.client;
 import com.tugalsan.api.cast.client.*;
 import com.tugalsan.api.charset.client.TGS_CharSetCast;
 import com.tugalsan.api.string.client.*;
+import com.tugalsan.api.union.client.TGS_UnionExcuse;
 import java.io.Serializable;
 import java.util.*;
 import java.util.stream.*;
@@ -112,36 +113,35 @@ public class TGS_Time implements Serializable {
         return of(new Date(millis));
     }
 
-    public static TGS_Time ofDate(Long date) {
-        if (date == null) {
-            return null;
-        }
+    public static TGS_Time ofDate(long date) {
         var o = new TGS_Time();
         o.setDate(date);
         return o;
     }
 
-    public static TGS_Time ofDateLong(CharSequence date) {
-        return ofDate(TGS_CastUtils.toLong(date));
+    public static TGS_UnionExcuse<TGS_Time> ofDateLong(CharSequence date) {
+        var u = TGS_CastUtils.toLong(date);
+        if (u.isExcuse()) {
+            return u.toExcuse();
+        }
+        return TGS_UnionExcuse.of(ofDate(u.value()));
     }
 
-    public static TGS_Time ofTime(Long time) {
-        if (time == null) {
-            return null;
-        }
+    public static TGS_Time ofTime(long time) {
         var o = new TGS_Time();
         o.setTime(time);
         return o;
     }
 
-    public static TGS_Time ofTimeLong(CharSequence date) {
-        return ofTime(TGS_CastUtils.toLong(date));
+    public static TGS_UnionExcuse<TGS_Time> ofTimeLong(CharSequence date) {
+        var u = TGS_CastUtils.toLong(date);
+        if (u.isExcuse()) {
+            return u.toExcuse();
+        }
+        return TGS_UnionExcuse.of(ofTime(u.value()));
     }
 
-    public static TGS_Time ofDateAndTime(Long date, Long time) {
-        if (date == null || time == null) {
-            return null;
-        }
+    public static TGS_Time ofDateAndTime(long date, long time) {
         var o = new TGS_Time();
         o.setDate(date);
         o.setTime(time);
@@ -149,9 +149,6 @@ public class TGS_Time implements Serializable {
     }
 
     public static TGS_Time of(Date date) {
-        if (date == null) {
-            return null;
-        }
         return new TGS_Time(date);
     }
 
@@ -166,28 +163,28 @@ public class TGS_Time implements Serializable {
     }
 
     public static String reverseDate(CharSequence date) {
-        if (date == null) {
-            return null;
-        }
         var dateStr = date.toString();
         return dateStr.substring(6) + "." + dateStr.substring(3, 5) + "." + dateStr.substring(0, 2);
     }
 
     //09.01.2021 20:54:23
-    public static TGS_Time ofCalender_DD_MM_YYYY_HH_MM_SS(CharSequence calenderText, char dateDelim) {
+    public static TGS_UnionExcuse<TGS_Time> ofCalender_DD_MM_YYYY_HH_MM_SS(CharSequence calenderText, char dateDelim) {
         if (calenderText == null) {
-            return null;
+            return TGS_UnionExcuse.ofExcuse(TGS_Time.class.getSimpleName(), "ofCalender_DD_MM_YYYY_HH_MM_SS", "calenderText == null");
         }
         var split = calenderText.toString().split(" ");
         if (split.length != 2) {
-            return null;
+            return TGS_UnionExcuse.ofExcuse(TGS_Time.class.getSimpleName(), "ofCalender_DD_MM_YYYY_HH_MM_SS", "split.length != 2 == null");
         }
         var date = ofDate(split[0], dateDelim);
-        var time = ofTime_HH_MM_SS(split[1]);
-        if (date == null || time == null) {
-            return null;
+        if (date.isExcuse()) {
+            return date.toExcuse();
         }
-        return time.setDate(date.getDate());
+        var time = ofTime_HH_MM_SS(split[1]);
+        if (time.isExcuse()) {
+            return time.toExcuse();
+        }
+        return TGS_UnionExcuse.of(time.value().setDate(date.value().getDate()));
     }
 
     public final boolean isProperTime(boolean zeroIsProper) {
@@ -389,33 +386,36 @@ public class TGS_Time implements Serializable {
         return ofDate(TGS_Time.getCurrentYear() * 10000 + 12L * 100 + 31);
     }
 
-    public static TGS_Time ofTime_HH_MM_SS(CharSequence time) {
-        if (time == null || time.length() != 8) {
-            return null;
+    public static TGS_UnionExcuse<TGS_Time> ofTime_HH_MM_SS(CharSequence time) {
+        if (time == null) {
+            return TGS_UnionExcuse.ofExcuse(TGS_Time.class.getSimpleName(), "ofTime_HH_MM_SS", "time == null");
+        }
+        if (time.length() != 8) {
+            return TGS_UnionExcuse.ofExcuse(TGS_Time.class.getSimpleName(), "ofTime_HH_MM_SS", " time.length() != 8");
         }
         var hri = TGS_CastUtils.toInteger(time.toString().substring(0, 2));
-        if (hri == null) {
-            return null;
+        if (hri.isExcuse()) {
+            return hri.toExcuse();
         }
         var mni = TGS_CastUtils.toInteger(time.toString().substring(3, 5));
-        if (mni == null) {
-            return null;
+        if (mni.isExcuse()) {
+            return mni.toExcuse();
         }
         var sci = TGS_CastUtils.toInteger(time.toString().substring(6, 8));
-        if (sci == null) {
-            return null;
+        if (sci.isExcuse()) {
+            return sci.toExcuse();
         }
         var t = new TGS_Time();
-        t.setHour(hri);
-        t.setMinute(mni);
-        t.setSecond(sci);
-        return t;
+        t.setHour(hri.value());
+        t.setMinute(mni.value());
+        t.setSecond(sci.value());
+        return TGS_UnionExcuse.of(t);
     }
 
-    public static TGS_Time ofTime_MM_SS(CharSequence time) {
+    public static TGS_UnionExcuse<TGS_Time> ofTime_MM_SS(CharSequence time) {
         var time0 = time;
         if (time0 == null) {
-            return null;
+            return TGS_UnionExcuse.ofExcuse(TGS_Time.class.getSimpleName(), "ofTime_MM_SS", "time0 == null");
         }
         time0 = time0.toString().trim();
         var i = time0.toString().indexOf(" ");
@@ -423,36 +423,36 @@ public class TGS_Time implements Serializable {
             i = time0.toString().indexOf(":");
             if (i == -1) {
                 var ii = TGS_CastUtils.toInteger(time0);
-                if (ii == null) {
-                    return null;
+                if (ii.isExcuse()) {
+                    return ii.toExcuse();
                 } else {
                     var rt = new TGS_Time();
                     rt.setHour(0);
-                    rt.setMinute(ii);
+                    rt.setMinute(ii.value());
                     rt.setSecond(0);
-                    return rt;
+                    return TGS_UnionExcuse.of(rt);
                 }
             }
         }
         var mni = TGS_CastUtils.toInteger(time0.toString().substring(0, i));
-        if (mni == null) {
-            return null;
+        if (mni.isExcuse()) {
+            return mni.toExcuse();
         }
         var sci = TGS_CastUtils.toInteger(time0.toString().substring(i + 1));
-        if (sci == null) {
-            return null;
+        if (sci.isExcuse()) {
+            return sci.toExcuse();
         }
         var t = new TGS_Time();
         t.setHour(0);
-        t.setMinute(mni);
-        t.setSecond(sci);
-        return t;
+        t.setMinute(mni.value());
+        t.setSecond(sci.value());
+        return TGS_UnionExcuse.of(t);
     }
 
-    public static TGS_Time ofTime_HH_MM(CharSequence time) {
+    public static TGS_UnionExcuse<TGS_Time> ofTime_HH_MM(CharSequence time) {
         var time0 = time;
         if (time0 == null) {
-            return null;
+            return TGS_UnionExcuse.ofExcuse(TGS_Time.class.getSimpleName(), "ofTime_HH_MM", "time0 == null");
         }
         time0 = time0.toString().trim();
         var i = time0.toString().indexOf(" ");
@@ -460,30 +460,30 @@ public class TGS_Time implements Serializable {
             i = time0.toString().indexOf(":");
             if (i == -1) {
                 var ii = TGS_CastUtils.toInteger(time0);
-                if (ii == null) {
-                    return null;
+                if (ii.isExcuse()) {
+                    return ii.toExcuse();
                 } else {
                     var rt = new TGS_Time();
-                    rt.setHour(ii);
+                    rt.setHour(ii.value());
                     rt.setMinute(0);
                     rt.setSecond(0);
-                    return rt;
+                    return TGS_UnionExcuse.of(rt);
                 }
             }
         }
         var hri = TGS_CastUtils.toInteger(time0.toString().substring(0, i));
-        if (hri == null) {
-            return null;
+        if (hri.isExcuse()) {
+            return hri.toExcuse();
         }
         var mni = TGS_CastUtils.toInteger(time0.toString().substring(i + 1));
-        if (mni == null) {
-            return null;
+        if (mni.isExcuse()) {
+            return mni.toExcuse();
         }
         var t = new TGS_Time();
-        t.setHour(hri);
-        t.setMinute(mni);
+        t.setHour(hri.value());
+        t.setMinute(mni.value());
         t.setSecond(0);
-        return t;
+        return TGS_UnionExcuse.of(t);
     }
 
     public String toString_YYYYMMDD_HHMMSS() {
@@ -504,84 +504,88 @@ public class TGS_Time implements Serializable {
         return TGS_StringIntegerUtils.make4Chars(year) + "-" + TGS_StringIntegerUtils.make2Chars(month);
     }
 
-    public static TGS_Time ofDate_YYYY_MM_DD(String YYYY_MM_DD) {
-        if (YYYY_MM_DD == null || "YYYY_MM_DD".length() != YYYY_MM_DD.length()) {
-            return null;
+    public static TGS_UnionExcuse<TGS_Time> ofDate_YYYY_MM_DD(String YYYY_MM_DD) {
+        if (YYYY_MM_DD == null) {
+            return TGS_UnionExcuse.ofExcuse(TGS_Time.class.getSimpleName(), "ofDate_YYYY_MM_DD", "YYYY_MM_DD == null");
+        }
+        if ("YYYY_MM_DD".length() != YYYY_MM_DD.length()) {
+            return TGS_UnionExcuse.ofExcuse(TGS_Time.class.getSimpleName(), "ofDate_YYYY_MM_DD", " \"YYYY_MM_DD\".length() != YYYY_MM_DD.length()");
         }
         var year = TGS_CastUtils.toInteger(YYYY_MM_DD.substring(0, 4));
-        if (year == null) {
-            return null;
+        if (year.isExcuse()) {
+            return year.toExcuse();
         }
         var month = TGS_CastUtils.toInteger(YYYY_MM_DD.substring(5, 7));
-        if (month == null) {
-            return null;
+        if (month.isExcuse()) {
+            return month.toExcuse();
         }
         var day = TGS_CastUtils.toInteger(YYYY_MM_DD.substring(8, 10));
-        if (day == null) {
-            return null;
+        if (day.isExcuse()) {
+            return day.toExcuse();
         }
-        return ofDate(year * 10000 + month * 100L + day);
+        return TGS_UnionExcuse.of(ofDate(year.value() * 10000 + month.value() * 100L + day.value()));
     }
 
-    public static TGS_Time ofDate(String date) {
-        TGS_Time d;
-        d = ofDate(date, ' ');
-        if (d == null) {
+    public static TGS_UnionExcuse<TGS_Time> ofDate(String date) {
+        var d = ofDate(date, ' ');
+        if (d.isExcuse()) {
             d = ofDate(date, '/');
         }
-        if (d == null) {
+        if (d.isExcuse()) {
             d = ofDate(date, '.');
         }
-        if (d == null) {
+        if (d.isExcuse()) {
             d = ofDate(date, '-');
         }
         return d;
     }
 
-    public static TGS_Time ofDate(String date, char delim) {
+    public static TGS_UnionExcuse<TGS_Time> ofDate(String date, char delim) {
         var date0 = date;
         if (date0 == null) {
-            return null;
+            return TGS_UnionExcuse.ofExcuse(TGS_Time.class.getSimpleName(), "ofDate", "date0 == null");
         }
         date0 = date0.trim();
         var i = date0.indexOf(delim);
         if (i == -1) {
-            return null;
-//            return new TK_GWTDate();
+            return TGS_UnionExcuse.ofExcuse(TGS_Time.class.getSimpleName(), "ofDate", "i == -1");
         }
         var j = date0.lastIndexOf(delim);
-        Integer dyi;
+        int dyi;
         if (date0.length() >= i) {
-            dyi = TGS_CastUtils.toInteger(date0.substring(0, i));
+            var u = TGS_CastUtils.toInteger(date0.substring(0, i));
+            if (u.isExcuse()) {
+                return u.toExcuse();
+            }
+            dyi = u.value();
         } else {
             dyi = getCurrentDay();
         }
-        if (dyi == null) {
-            return null;
-        }
-        Integer mni;
+        int mni;
         if (date0.length() >= j) {
-            mni = TGS_CastUtils.toInteger(date0.substring(i + 1, j));
+            var u = TGS_CastUtils.toInteger(date0.substring(i + 1, j));
+            if (u.isExcuse()) {
+                return u.toExcuse();
+            }
+            mni = u.value();
         } else {
             mni = getCurrentMonth();
         }
-        if (mni == null) {
-            return null;
-        }
-        Integer yri;
+        int yri;
         if (date0.length() > j + 1) {
-            yri = TGS_CastUtils.toInteger(date0.substring(j + 1, date0.length()));
+            var u = TGS_CastUtils.toInteger(date0.substring(j + 1, date0.length()));
+            if (u.isExcuse()) {
+                return u.toExcuse();
+            }
+            yri = u.value();
         } else {
             yri = getCurrentMonth();
-        }
-        if (yri == null) {
-            return null;
         }
         var d = new TGS_Time();
         d.setDay(dyi);
         d.setMonth(mni);
         d.setYear(yri < 100 ? yri + 2000 : yri);
-        return d;
+        return TGS_UnionExcuse.of(d);
     }
 
     public String getDateStamp() {
