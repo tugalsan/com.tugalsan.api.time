@@ -1,7 +1,8 @@
 package com.tugalsan.api.time.client;
 
 import com.tugalsan.api.cast.client.*;
-import com.tugalsan.api.charset.client.TGS_CharSet;
+import com.tugalsan.api.charset.client.TGS_CharSetCast;
+import com.tugalsan.api.charset.client.TGS_CharSetLocaleTypes;
 import com.tugalsan.api.string.client.*;
 import com.tugalsan.api.unsafe.client.*;
 import java.io.Serializable;
@@ -251,8 +252,8 @@ public class TGS_Time implements Serializable {
         return dayOfWeek(this);
     }
 
-    public String getDayOfWeekName(TGS_CharSet.CommonGwt.Language language) {
-        return TGS_Time.getDayOfWeekName(language, dayOfWeek());
+    public String getDayOfWeekName(TGS_CharSetLocaleTypes type) {
+        return TGS_Time.getDayOfWeekName(type, dayOfWeek());
     }
 
     public final static int dayOfWeek(TGS_Time date) {//1-7
@@ -603,8 +604,8 @@ public class TGS_Time implements Serializable {
         return IntStream.rangeClosed(1, 12).map(i -> getMonthLength(i, year)).sum();
     }
 
-    public static String getDayOfWeekName(TGS_CharSet.CommonGwt.Language language, int dayOfWeek) {
-        return language.dayOfWeekName(dayOfWeek);
+    public static String getDayOfWeekName(TGS_CharSetLocaleTypes type, int dayOfWeek) {
+        return TGS_CharSetCast.typed(type).dayOfWeekName(dayOfWeek);
     }
 
     public static int getMonthLength(int month, int year) {
