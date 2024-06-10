@@ -825,10 +825,10 @@ public class TGS_Time implements Serializable {
         return secs;
     }
     
-    public long getDayDifference(TGS_Time toTime) {
+    public long getDayDifference(TGS_Time toDate) {
         var days = 0L;
-        if (toTime.hasGreaterDateThan(this)) {
-            while (toTime.hasGreaterTimeThan(this)) {
+        if (toDate.hasGreaterDateThan(this)) {
+            while (toDate.hasGreaterDateThan(this)) {
                 days++;
                 incrementDay(1);
             }
@@ -836,7 +836,7 @@ public class TGS_Time implements Serializable {
                 LongStream.range(0, days).forEachOrdered(l -> incrementDay(-1));
             }
         } else {
-            while (toTime.hasGreaterDateThan(this)) {
+            while (toDate.hasSmallerDateThan(this)) {
                 days--;
                 incrementDay(-1);
             }
