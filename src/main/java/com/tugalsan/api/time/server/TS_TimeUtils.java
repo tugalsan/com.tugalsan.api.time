@@ -61,11 +61,11 @@ public class TS_TimeUtils {
             }
             return TGS_UnionExcuseVoid.ofVoid();
         } else {
-            var b1 = run(TGS_StringUtils.concat("date +%Y%m%d -s \"" + dateAndTime.getYear(), make2Chars(dateAndTime.getMonth()), make2Chars(dateAndTime.getDay()), "\""));
+            var b1 = run(TGS_StringUtils.cmn().concat("date +%Y%m%d -s \"" + dateAndTime.getYear(), make2Chars(dateAndTime.getMonth()), make2Chars(dateAndTime.getDay()), "\""));
             if (b1.isExcuse()) {
                 return b1;
             }
-            var b2 = run(TGS_StringUtils.concat("date +%T -s \"", make2Chars(dateAndTime.getHour()), ":", make2Chars(dateAndTime.getMinute()), ":", make2Chars(dateAndTime.getSecond()), "\""));
+            var b2 = run(TGS_StringUtils.cmn().concat("date +%T -s \"", make2Chars(dateAndTime.getHour()), ":", make2Chars(dateAndTime.getMinute()), ":", make2Chars(dateAndTime.getSecond()), "\""));
             if (b2.isExcuse()) {
                 return b2;
             }
@@ -76,7 +76,7 @@ public class TS_TimeUtils {
     //NO DEP FUNCTION
     private static String make2Chars(int i) {
         var is = String.valueOf(i);
-        return is.length() < 2 ? TGS_StringUtils.concat("0", is) : is;
+        return is.length() < 2 ? TGS_StringUtils.cmn().concat("0", is) : is;
     }
 
     //NO DEP FUNCTION

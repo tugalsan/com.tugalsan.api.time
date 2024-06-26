@@ -597,7 +597,7 @@ public class TGS_Time implements Serializable {
     }
 
     public String getDateStamp() {
-        return TGS_StringUtils.concat(String.valueOf(year), "-", TGS_StringIntegerUtils.make2Chars(month), "-", TGS_StringIntegerUtils.make2Chars(day), " 00:00:00.000");
+        return TGS_StringUtils.cmn().concat(String.valueOf(year), "-", TGS_StringIntegerUtils.make2Chars(month), "-", TGS_StringIntegerUtils.make2Chars(day), " 00:00:00.000");
     }
 
     public static int getMaxDaysOfYear(int year) {
@@ -709,15 +709,15 @@ public class TGS_Time implements Serializable {
 
     @Override
     public String toString() {
-        return TGS_StringUtils.concat(toString_dateOnly(), " ", toString_timeOnly());
+        return TGS_StringUtils.cmn().concat(toString_dateOnly(), " ", toString_timeOnly());
     }
 
     public static String toString_now() {
-        return TGS_StringUtils.concat(toString_dateOnly_today(), " ", toString_timeOnly_now());
+        return TGS_StringUtils.cmn().concat(toString_dateOnly_today(), " ", toString_timeOnly_now());
     }
 
     public static String toString(long date, long time) {
-        return TGS_StringUtils.concat(toString_dateOnly(date), " ", toString_timeOnly(time));
+        return TGS_StringUtils.cmn().concat(toString_dateOnly(date), " ", toString_timeOnly(time));
     }
 
     public static String toString_dateOnly_today() {
@@ -732,7 +732,7 @@ public class TGS_Time implements Serializable {
         date -= (long) m;
         date /= 100L;
         var y = (int) date;
-        return TGS_StringUtils.concat(TGS_StringIntegerUtils.make2Chars(d), ".", TGS_StringIntegerUtils.make2Chars(m), "." + TGS_StringIntegerUtils.make4Chars(y));
+        return TGS_StringUtils.cmn().concat(TGS_StringIntegerUtils.make2Chars(d), ".", TGS_StringIntegerUtils.make2Chars(m), "." + TGS_StringIntegerUtils.make4Chars(y));
     }
 
     public static String toString_timeOnly_now() {
@@ -755,7 +755,7 @@ public class TGS_Time implements Serializable {
         time -= (long) m;
         time /= 100L;
         var h = (int) time;
-        return TGS_StringUtils.concat(TGS_StringIntegerUtils.make2Chars(h), ":", TGS_StringIntegerUtils.make2Chars(m), ":", TGS_StringIntegerUtils.make2Chars(s));
+        return TGS_StringUtils.cmn().concat(TGS_StringIntegerUtils.make2Chars(h), ":", TGS_StringIntegerUtils.make2Chars(m), ":", TGS_StringIntegerUtils.make2Chars(s));
     }
 
     @Deprecated //JUST CREATE A NEW OBJECT
