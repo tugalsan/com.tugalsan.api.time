@@ -531,24 +531,24 @@ public class TGS_Time implements Serializable {
         return ofDate(year * 10000 + month * 100L + day);
     }
 
-    public static TGS_Time ofDate(String date) {
+    public static TGS_Time ofDate_D_M_Y(String date) {
         return TGS_UnSafe.call(() -> {
             TGS_Time d;
-            d = ofDate(date, ' ');
+            d = ofDate_D_M_Y(date, ' ');
             if (d == null) {
-                d = ofDate(date, '/');
+                d = ofDate_D_M_Y(date, '/');
             }
             if (d == null) {
-                d = ofDate(date, '.');
+                d = ofDate_D_M_Y(date, '.');
             }
             if (d == null) {
-                d = ofDate(date, '-');
+                d = ofDate_D_M_Y(date, '-');
             }
             return d;
         }, e -> null);
     }
 
-    public static TGS_Time ofDate(String date, char delim) {
+    public static TGS_Time ofDate_D_M_Y(String date, char delim) {
         return TGS_UnSafe.call(() -> {
             var date0 = date;
             if (date0 == null) {
