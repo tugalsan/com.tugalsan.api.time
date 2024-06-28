@@ -184,7 +184,7 @@ public class TGS_Time implements Serializable {
         if (split.length != 2) {
             return null;
         }
-        var date = ofDate(split[0], dateDelim);
+        var date = ofDate_D_M_Y(split[0], dateDelim);
         var time = ofTime_HH_MM_SS(split[1]);
         if (date == null || time == null) {
             return null;
