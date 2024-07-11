@@ -427,15 +427,18 @@ public class TGS_Time implements Serializable {
             if (i == -1) {
                 i = time0.toString().indexOf(":");
                 if (i == -1) {
-                    var ii = TGS_CastUtils.toInteger(time0);
-                    if (ii == null) {
-                        return null;
-                    } else {
-                        var rt = new TGS_Time();
-                        rt.setHour(0);
-                        rt.setMinute(ii);
-                        rt.setSecond(0);
-                        return rt;
+                    i = time0.toString().indexOf(":");
+                    if (i == -1) {
+                        var ii = TGS_CastUtils.toInteger(time0);
+                        if (ii == null) {
+                            return null;
+                        } else {
+                            var rt = new TGS_Time();
+                            rt.setHour(0);
+                            rt.setMinute(ii);
+                            rt.setSecond(0);
+                            return rt;
+                        }
                     }
                 }
             }
@@ -466,15 +469,18 @@ public class TGS_Time implements Serializable {
             if (i == -1) {
                 i = time0.toString().indexOf(":");
                 if (i == -1) {
-                    var ii = TGS_CastUtils.toInteger(time0);
-                    if (ii == null) {
-                        return null;
-                    } else {
-                        var rt = new TGS_Time();
-                        rt.setHour(ii);
-                        rt.setMinute(0);
-                        rt.setSecond(0);
-                        return rt;
+                    i = time0.toString().indexOf(".");
+                    if (i == -1) {
+                        var ii = TGS_CastUtils.toInteger(time0);
+                        if (ii == null) {
+                            return null;
+                        } else {
+                            var rt = new TGS_Time();
+                            rt.setHour(ii);
+                            rt.setMinute(0);
+                            rt.setSecond(0);
+                            return rt;
+                        }
                     }
                 }
             }
@@ -824,7 +830,7 @@ public class TGS_Time implements Serializable {
         }
         return secs;
     }
-    
+
     public long getDayDifference(TGS_Time toDate) {
         var days = 0L;
         if (toDate.hasGreaterDateThan(this)) {
