@@ -859,7 +859,7 @@ public class TGS_Time implements Serializable {
             second += 60;
             incrementMinute(-1);
         }
-        while (second > 60) {
+        while (second >= 60) {
             second -= 60;
             incrementMinute(+1);
         }
@@ -872,7 +872,7 @@ public class TGS_Time implements Serializable {
             minute += 60;
             incrementHour(-1);
         }
-        while (minute > 60) {
+        while (minute >= 60) {
             minute -= 60;
             incrementHour(+1);
         }
@@ -885,7 +885,7 @@ public class TGS_Time implements Serializable {
             hour += 24;
             incrementDay(-1);
         }
-        while (hour > 23) {
+        while (hour >= 24) {
             hour -= 24;
             incrementDay(+1);
         }
