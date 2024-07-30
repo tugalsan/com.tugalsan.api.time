@@ -199,7 +199,12 @@ public class TGS_Time implements Serializable {
         return getTime() <= 235959 && getTime() >= 0;
     }
 
-    public final boolean isProperDate() {
+    public final boolean isProperDate(boolean strict) {
+        if (strict) {
+            if (day == 0 || month == 0) {
+                return false;
+            }
+        }
         var maxMonthDays = 0;
         switch (month) {//DONT USE SWITCH EXPRESSIONS! GWT WONT LIKE U
             case 1:
@@ -223,6 +228,11 @@ public class TGS_Time implements Serializable {
             default:
         }
         return day >= 0 && day <= maxMonthDays && month >= 0 && month <= 12;
+    }
+
+    @Deprecated
+    public final boolean isProperDate() {
+        return isProperDate(false);
     }
 
     public final int getWeekNumber() {
