@@ -893,6 +893,9 @@ public class TGS_Time implements Serializable {
     }
 
     public TGS_Time incrementDay(int dayStep) {
+        if (!isProperDate()) {
+            return this;
+        }
         var directionForward = dayStep > 0;
         dayStep = Math.abs(dayStep);
         if (directionForward) {
@@ -1074,6 +1077,9 @@ public class TGS_Time implements Serializable {
     }
 
     public TGS_Time incrementMonth(int i) {
+        if (!isProperDate()) {
+            return this;
+        }
         while (i != 0) {
             if (i < 0) {
                 month--;
@@ -1095,6 +1101,9 @@ public class TGS_Time implements Serializable {
     }
 
     public TGS_Time incrementYear(int i) {
+        if (!isProperDate()) {
+            return this;
+        }
         year += i;
         return this;
     }
