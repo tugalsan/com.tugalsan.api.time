@@ -13,6 +13,12 @@ import java.util.concurrent.*;
 
 public class TS_TimeUtils {
 
+    public static Calendar toCalendar(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        return cal;
+    }
+
     public static String toString(Duration dur) {
         return String.format("%d:%02d:%02d",
                 dur.toHours(),
