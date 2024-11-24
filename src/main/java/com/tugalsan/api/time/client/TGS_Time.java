@@ -162,13 +162,9 @@ public class TGS_Time implements Serializable {
             return false;
         }
         var dateStr = date.toString();
-        if ("00.00.0000".length() != dateStr.length()) {
-            return false;
-        }
-        if (dateStr.indexOf('.', 0) != 2 || dateStr.indexOf('.', 3) != 5) {
-            return false;
-        }
-        return true;
+        return "00.00.0000".length() == dateStr.length()
+                && dateStr.indexOf('.', 0) == 2
+                && dateStr.indexOf('.', 3) == 5;
     }
 
     public static boolean isDateReversed(CharSequence date) {
@@ -176,13 +172,9 @@ public class TGS_Time implements Serializable {
             return false;
         }
         var dateStr = date.toString();
-        if ("0000.00.00".length() != dateStr.length()) {
-            return false;
-        }
-        if (dateStr.indexOf('.', 0) != 4 || dateStr.indexOf('.', 5) != 7) {
-            return false;
-        }
-        return true;
+        return "0000.00.00".length() == dateStr.length()
+                && dateStr.indexOf('.', 0) == 4
+                && dateStr.indexOf('.', 5) == 7;
     }
 
     public static String reverseDate(CharSequence date) {
