@@ -559,7 +559,7 @@ public class TGS_Time implements Serializable {
     }
 
     public String toString_YYYY_MM_DD_HH_MM_SS() {
-        return toString_YYYY_MM_DD() + "-" + toString_timeOnly();
+        return toString_YYYY_MM_DD() + " " + toString_timeOnly();
     }
 
     public String toString_YYYY_MM() {
