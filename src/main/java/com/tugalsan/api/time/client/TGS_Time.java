@@ -558,6 +558,10 @@ public class TGS_Time implements Serializable {
         return TGS_StringIntegerUtils.make4Chars(year) + "-" + TGS_StringIntegerUtils.make2Chars(month) + "-" + TGS_StringIntegerUtils.make2Chars(day);
     }
 
+    public String toString_YYYY_MM_DD_HH_MM_SS() {
+        return toString_YYYY_MM_DD() + "-" + toString_timeOnly();
+    }
+
     public String toString_YYYY_MM() {
         return TGS_StringIntegerUtils.make4Chars(year) + "-" + TGS_StringIntegerUtils.make2Chars(month);
     }
@@ -763,6 +767,10 @@ public class TGS_Time implements Serializable {
     }
 
     public static String toString_now() {
+        return TGS_StringUtils.cmn().concat(toString_dateOnly_today(), " ", toString_timeOnly_now());
+    }
+
+    public static String toString_now_() {
         return TGS_StringUtils.cmn().concat(toString_dateOnly_today(), " ", toString_timeOnly_now());
     }
 
