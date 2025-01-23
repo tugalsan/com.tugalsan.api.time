@@ -428,11 +428,19 @@ public class TGS_Time implements Serializable {
     }
 
     public static TGS_Time getBeginningOfThisYear() {
-        return ofDate(TGS_Time.getCurrentYear() * 10000 + 1L * 100 + 1);
+        return getBeginningOfYear(TGS_Time.getCurrentYear());
+    }
+
+    public static TGS_Time getBeginningOfYear(int year) {
+        return ofDate(year * 10000 + 1L * 100 + 1);
+    }
+
+    public static TGS_Time getEndingOfYear(int year) {
+        return ofDate(year * 10000 + 12L * 100 + 31);
     }
 
     public static TGS_Time getEndingOfThisYear() {
-        return ofDate(TGS_Time.getCurrentYear() * 10000 + 12L * 100 + 31);
+        return getEndingOfYear(TGS_Time.getCurrentYear());
     }
 
     public static TGS_Time ofTime_HH_MM_SS(CharSequence time) {
