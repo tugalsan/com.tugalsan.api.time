@@ -3,8 +3,9 @@ package com.tugalsan.api.time.client;
 import com.tugalsan.api.cast.client.*;
 import com.tugalsan.api.charset.client.TGS_CharSetCast;
 import com.tugalsan.api.charset.client.TGS_CharSetLocaleTypes;
+import com.tugalsan.api.function.client.maythrow.checkedexceptions.TGS_FuncMTCEUtils;
 import com.tugalsan.api.string.client.*;
-import com.tugalsan.api.unsafe.client.*;
+
 import java.io.Serializable;
 import java.util.*;
 import java.util.stream.*;
@@ -444,7 +445,7 @@ public class TGS_Time implements Serializable {
     }
 
     public static TGS_Time ofTime_HH_MM_SS(CharSequence time) {
-        return TGS_UnSafe.call(() -> {
+        return TGS_FuncMTCEUtils.call(() -> {
             if (time == null || time.length() != 8) {
                 return null;
             }
@@ -469,7 +470,7 @@ public class TGS_Time implements Serializable {
     }
 
     public static TGS_Time ofTime_MM_SS(CharSequence time) {
-        return TGS_UnSafe.call(() -> {
+        return TGS_FuncMTCEUtils.call(() -> {
             var time0 = time;
             if (time0 == null) {
                 return null;
@@ -511,7 +512,7 @@ public class TGS_Time implements Serializable {
     }
 
     public static TGS_Time ofTime_HH_MM(CharSequence time) {
-        return TGS_UnSafe.call(() -> {
+        return TGS_FuncMTCEUtils.call(() -> {
             var time0 = time;
             if (time0 == null) {
                 return null;
@@ -594,7 +595,7 @@ public class TGS_Time implements Serializable {
     }
 
     public static TGS_Time ofDate_D_M_Y(String date) {
-        return TGS_UnSafe.call(() -> {
+        return TGS_FuncMTCEUtils.call(() -> {
             TGS_Time d;
             d = ofDate_D_M_Y(date, ' ');
             if (d == null) {
@@ -611,7 +612,7 @@ public class TGS_Time implements Serializable {
     }
 
     public static TGS_Time ofDate_D_M_Y(String date, char delim) {
-        return TGS_UnSafe.call(() -> {
+        return TGS_FuncMTCEUtils.call(() -> {
             var date0 = date;
             if (date0 == null) {
                 return null;

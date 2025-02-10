@@ -1,6 +1,8 @@
 package com.tugalsan.api.time.client;
 
-import com.tugalsan.api.unsafe.client.*;
+import com.tugalsan.api.function.client.maythrow.checkedexceptions.TGS_FuncMTCEUtils;
+
+
 
 public class TGS_TimeUtils {
 
@@ -44,7 +46,7 @@ public class TGS_TimeUtils {
     }
 
     public static boolean isValidDate(Long lngDate) {
-        return TGS_UnSafe.call(() -> {
+        return TGS_FuncMTCEUtils.call(() -> {
             if (lngDate == null) {
                 return false;
             }
@@ -76,7 +78,7 @@ public class TGS_TimeUtils {
     }
 
     public static boolean isValidTime(Long lngTime) {
-        return TGS_UnSafe.call(() -> {
+        return TGS_FuncMTCEUtils.call(() -> {
             if (lngTime == null) {
                 return false;
             }
