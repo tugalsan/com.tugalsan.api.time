@@ -654,7 +654,7 @@ public class TGS_Time implements Serializable {
             var d = new TGS_Time();
             d.setDay(dyi);
             d.setMonth(mni);
-            d.setYear(yri < 100 ? yri + 2000 : yri);
+            d.setYear(TGS_TimeUtils.convertYearToCurrentYearIfPossibleIfZeroDateIsCurrentYear(yri));
             return d;
         }, e -> null);
     }
@@ -857,12 +857,12 @@ public class TGS_Time implements Serializable {
     public final TGS_Time setDateEmpty() {
         day = 0;
         month = 0;
-        year = 2000;
+        year = TGS_TimeUtils.zeroDateYearInt();
         return this;
     }
 
     public final boolean isDateEmpty() {
-        return day == 0 && month == 0 && year == 2000;
+        return day == 0 && month == 0 && year == TGS_TimeUtils.zeroDateYearInt();
     }
 
     public final TGS_Time setToTodayAndNow() {
