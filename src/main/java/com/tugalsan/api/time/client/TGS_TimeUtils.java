@@ -32,6 +32,13 @@ public class TGS_TimeUtils {
         return SECS_TIMEOUT_HOUR() * 24;
     }// 60 seconds * 60 minutes * 24 hours
 
+    public static int slimToZeroDateYear_OnlyIf2XXX(int year) {//IT CAN STAY, In 3000 ids will be longer
+        if (year >= 2000 && year < 2999) {
+            year -= 2000;
+        }
+        return year;
+    }
+
     public static int convertYearToCurrentYearIfPossibleIfZeroDateIsCurrentYear(int yri) {
         if (!ZERO_DAY_CONTAINS_CURRENT_YEAR) {
             return yri;
