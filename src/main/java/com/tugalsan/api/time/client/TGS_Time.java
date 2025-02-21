@@ -125,7 +125,7 @@ public class TGS_Time implements Serializable {
     }
 
     public static TGS_Time ofDateLong(CharSequence date) {
-        return ofDate(TGS_CastUtils.toLong(date));
+        return ofDate(TGS_CastUtils.toLong(date).orElse(null));
     }
 
     public static TGS_Time ofTime(Long time) {
@@ -138,7 +138,7 @@ public class TGS_Time implements Serializable {
     }
 
     public static TGS_Time ofTimeLong(CharSequence date) {
-        return ofTime(TGS_CastUtils.toLong(date));
+        return ofTime(TGS_CastUtils.toLong(date).orElse(null));
     }
 
     public static TGS_Time ofDateAndTime(Long date, Long time) {
@@ -449,15 +449,15 @@ public class TGS_Time implements Serializable {
             if (time == null || time.length() != 8) {
                 return null;
             }
-            var hri = TGS_CastUtils.toInteger(time.toString().substring(0, 2));
+            var hri = TGS_CastUtils.toInteger(time.toString().substring(0, 2)).orElse(null);
             if (hri == null) {
                 return null;
             }
-            var mni = TGS_CastUtils.toInteger(time.toString().substring(3, 5));
+            var mni = TGS_CastUtils.toInteger(time.toString().substring(3, 5)).orElse(null);
             if (mni == null) {
                 return null;
             }
-            var sci = TGS_CastUtils.toInteger(time.toString().substring(6, 8));
+            var sci = TGS_CastUtils.toInteger(time.toString().substring(6, 8)).orElse(null);
             if (sci == null) {
                 return null;
             }
@@ -482,7 +482,7 @@ public class TGS_Time implements Serializable {
                 if (i == -1) {
                     i = time0.toString().indexOf(":");
                     if (i == -1) {
-                        var ii = TGS_CastUtils.toInteger(time0);
+                        var ii = TGS_CastUtils.toInteger(time0).orElse(null);
                         if (ii == null) {
                             return null;
                         } else {
@@ -495,11 +495,11 @@ public class TGS_Time implements Serializable {
                     }
                 }
             }
-            var mni = TGS_CastUtils.toInteger(time0.toString().substring(0, i));
+            var mni = TGS_CastUtils.toInteger(time0.toString().substring(0, i)).orElse(null);
             if (mni == null) {
                 return null;
             }
-            var sci = TGS_CastUtils.toInteger(time0.toString().substring(i + 1));
+            var sci = TGS_CastUtils.toInteger(time0.toString().substring(i + 1)).orElse(null);
             if (sci == null) {
                 return null;
             }
@@ -524,7 +524,7 @@ public class TGS_Time implements Serializable {
                 if (i == -1) {
                     i = time0.toString().indexOf(".");
                     if (i == -1) {
-                        var ii = TGS_CastUtils.toInteger(time0);
+                        var ii = TGS_CastUtils.toInteger(time0).orElse(null);
                         if (ii == null) {
                             return null;
                         } else {
@@ -537,11 +537,11 @@ public class TGS_Time implements Serializable {
                     }
                 }
             }
-            var hri = TGS_CastUtils.toInteger(time0.toString().substring(0, i));
+            var hri = TGS_CastUtils.toInteger(time0.toString().substring(0, i)).orElse(null);
             if (hri == null) {
                 return null;
             }
-            var mni = TGS_CastUtils.toInteger(time0.toString().substring(i + 1));
+            var mni = TGS_CastUtils.toInteger(time0.toString().substring(i + 1)).orElse(null);
             if (mni == null) {
                 return null;
             }
@@ -579,15 +579,15 @@ public class TGS_Time implements Serializable {
         if (YYYY_MM_DD == null || "YYYY_MM_DD".length() != YYYY_MM_DD.length()) {
             return null;
         }
-        var year = TGS_CastUtils.toInteger(YYYY_MM_DD.substring(0, 4));
+        var year = TGS_CastUtils.toInteger(YYYY_MM_DD.substring(0, 4)).orElse(null);
         if (year == null) {
             return null;
         }
-        var month = TGS_CastUtils.toInteger(YYYY_MM_DD.substring(5, 7));
+        var month = TGS_CastUtils.toInteger(YYYY_MM_DD.substring(5, 7)).orElse(null);
         if (month == null) {
             return null;
         }
-        var day = TGS_CastUtils.toInteger(YYYY_MM_DD.substring(8, 10));
+        var day = TGS_CastUtils.toInteger(YYYY_MM_DD.substring(8, 10)).orElse(null);
         if (day == null) {
             return null;
         }
@@ -626,7 +626,7 @@ public class TGS_Time implements Serializable {
             var j = date0.lastIndexOf(delim);
             Integer dyi;
             if (date0.length() >= i) {
-                dyi = TGS_CastUtils.toInteger(date0.substring(0, i));
+                dyi = TGS_CastUtils.toInteger(date0.substring(0, i)).orElse(null);
             } else {
                 dyi = getCurrentDay();
             }
@@ -635,7 +635,7 @@ public class TGS_Time implements Serializable {
             }
             Integer mni;
             if (date0.length() >= j) {
-                mni = TGS_CastUtils.toInteger(date0.substring(i + 1, j));
+                mni = TGS_CastUtils.toInteger(date0.substring(i + 1, j)).orElse(null);
             } else {
                 mni = getCurrentMonth();
             }
@@ -644,7 +644,7 @@ public class TGS_Time implements Serializable {
             }
             Integer yri;
             if (date0.length() > j + 1) {
-                yri = TGS_CastUtils.toInteger(date0.substring(j + 1, date0.length()));
+                yri = TGS_CastUtils.toInteger(date0.substring(j + 1, date0.length())).orElse(null);
             } else {
                 yri = getCurrentMonth();
             }
