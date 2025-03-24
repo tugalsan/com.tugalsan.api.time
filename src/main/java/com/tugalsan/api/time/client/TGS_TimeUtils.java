@@ -1,7 +1,7 @@
 package com.tugalsan.api.time.client;
 
 import com.tugalsan.api.cast.client.TGS_CastUtils;
-import com.tugalsan.api.function.client.maythrow.checkedexceptions.TGS_FuncMTCEUtils;
+import com.tugalsan.api.function.client.maythrowexceptions.checked.TGS_FuncMTCUtils;
 import java.util.Date;
 
 public class TGS_TimeUtils {
@@ -108,7 +108,7 @@ public class TGS_TimeUtils {
     }
 
     public static boolean isValidDate(Long lngDate) {
-        return TGS_FuncMTCEUtils.call(() -> {
+        return TGS_FuncMTCUtils.call(() -> {
             if (lngDate == null) {
                 return false;
             }
@@ -140,7 +140,7 @@ public class TGS_TimeUtils {
     }
 
     public static boolean isValidTime(Long lngTime) {
-        return TGS_FuncMTCEUtils.call(() -> {
+        return TGS_FuncMTCUtils.call(() -> {
             if (lngTime == null) {
                 return false;
             }

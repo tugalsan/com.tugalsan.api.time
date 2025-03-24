@@ -3,7 +3,7 @@ package com.tugalsan.api.time.server;
 import com.sun.jna.*;
 import com.sun.jna.platform.win32.WinBase.*;
 import com.sun.jna.win32.*;
-import com.tugalsan.api.function.client.maythrow.checkedexceptions.TGS_FuncMTCEUtils;
+import com.tugalsan.api.function.client.maythrowexceptions.checked.TGS_FuncMTCUtils;
 import com.tugalsan.api.string.client.*;
 import com.tugalsan.api.time.client.*;
 import com.tugalsan.api.union.client.TGS_UnionExcuseVoid;
@@ -88,7 +88,7 @@ public class TS_TimeUtils {
 
     //NO DEP FUNCTION
     private static TGS_UnionExcuseVoid run(CharSequence commandLine) {
-        return TGS_FuncMTCEUtils.call(() -> {
+        return TGS_FuncMTCUtils.call(() -> {
             var p = Runtime.getRuntime().exec(commandLine.toString());
             p.waitFor();
             return TGS_UnionExcuseVoid.ofVoid();

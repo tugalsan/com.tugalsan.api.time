@@ -3,7 +3,7 @@ package com.tugalsan.api.time.client;
 import com.tugalsan.api.cast.client.*;
 import com.tugalsan.api.charset.client.TGS_CharSetCast;
 import com.tugalsan.api.charset.client.TGS_CharSetLocaleTypes;
-import com.tugalsan.api.function.client.maythrow.checkedexceptions.TGS_FuncMTCEUtils;
+import com.tugalsan.api.function.client.maythrowexceptions.checked.TGS_FuncMTCUtils;
 import com.tugalsan.api.string.client.*;
 
 import java.io.Serializable;
@@ -445,7 +445,7 @@ public class TGS_Time implements Serializable {
     }
 
     public static TGS_Time ofTime_HH_MM_SS(CharSequence time) {
-        return TGS_FuncMTCEUtils.call(() -> {
+        return TGS_FuncMTCUtils.call(() -> {
             if (time == null || time.length() != 8) {
                 return null;
             }
@@ -470,7 +470,7 @@ public class TGS_Time implements Serializable {
     }
 
     public static TGS_Time ofTime_MM_SS(CharSequence time) {
-        return TGS_FuncMTCEUtils.call(() -> {
+        return TGS_FuncMTCUtils.call(() -> {
             var time0 = time;
             if (time0 == null) {
                 return null;
@@ -512,7 +512,7 @@ public class TGS_Time implements Serializable {
     }
 
     public static TGS_Time ofTime_HH_MM(CharSequence time) {
-        return TGS_FuncMTCEUtils.call(() -> {
+        return TGS_FuncMTCUtils.call(() -> {
             var time0 = time;
             if (time0 == null) {
                 return null;
@@ -595,7 +595,7 @@ public class TGS_Time implements Serializable {
     }
 
     public static TGS_Time ofDate_D_M_Y(String date) {
-        return TGS_FuncMTCEUtils.call(() -> {
+        return TGS_FuncMTCUtils.call(() -> {
             TGS_Time d;
             d = ofDate_D_M_Y(date, ' ');
             if (d == null) {
@@ -612,7 +612,7 @@ public class TGS_Time implements Serializable {
     }
 
     public static TGS_Time ofDate_D_M_Y(String date, char delim) {
-        return TGS_FuncMTCEUtils.call(() -> {
+        return TGS_FuncMTCUtils.call(() -> {
             var date0 = date;
             if (date0 == null) {
                 return null;
