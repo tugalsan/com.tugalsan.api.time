@@ -251,7 +251,7 @@ public class TGS_Time implements Serializable {
         tmp.setDay(1);
         tmp.setMonth(1);
         //tmp.setYear(2018);
-        var dayOfWeekInit = dayOfWeek(tmp).orElse(null);
+        var dayOfWeekInit = dayOfWeek_returns_1_to_7(tmp).orElse(null);
         if (dayOfWeekInit == null) {
             return Optional.empty();
         }
@@ -263,7 +263,17 @@ public class TGS_Time implements Serializable {
         return Optional.of(weekNumber);
     }
 
-    public final static Optional<Integer> dayOfWeek(int day, int month, int year) {// Returns 1-7
+    public Optional<String> getDayOfWeekName(TGS_CharSetLocaleTypes type) {
+        var dow = dayOfWeek_returns_1_to_7();
+        if (dow.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(
+                TGS_Time.getDayOfWeekName(type, dow.orElseThrow())
+        );
+    }
+
+    public final static Optional<Integer> dayOfWeek_returns_1_to_7(int day, int month, int year) {
         if (day == 0 || month == 0) {
             return Optional.empty();
         }
@@ -275,22 +285,12 @@ public class TGS_Time implements Serializable {
         return Optional.of(dow == 0 ? 7 : dow);
     }
 
-    public final Optional<Integer> dayOfWeek() {//1-7
-        return dayOfWeek(this);
+    public final Optional<Integer> dayOfWeek_returns_1_to_7() {
+        return dayOfWeek_returns_1_to_7(this);
     }
 
-    public Optional<String> getDayOfWeekName(TGS_CharSetLocaleTypes type) {
-        var dow = dayOfWeek();
-        if (dow.isEmpty()) {
-            return Optional.empty();
-        }
-        return Optional.of(
-                TGS_Time.getDayOfWeekName(type, dow.orElseThrow())
-        );
-    }
-
-    public final static Optional<Integer> dayOfWeek(TGS_Time date) {//1-7
-        return dayOfWeek(date.getDay(), date.getMonth(), date.getYear());
+    public final static Optional<Integer> dayOfWeek_returns_1_to_7(TGS_Time date) {//1-7
+        return TGS_Time.dayOfWeek_returns_1_to_7(date.getDay(), date.getMonth(), date.getYear());
     }
 
     public final static Optional<TGS_Time> dayOfWeek_getMonday(TGS_Time date) {//1-7
@@ -302,13 +302,13 @@ public class TGS_Time implements Serializable {
         monday.setDay(day);
         monday.setMonth(month);
         monday.setYear(year);
-        var dayofWeek = dayOfWeek(monday).orElse(null);
+        var dayofWeek = dayOfWeek_returns_1_to_7(monday).orElse(null);
         if (dayofWeek == null) {
             return Optional.empty();
         }
         while (dayofWeek != 1) {
             monday.incrementDay(-1);
-            dayofWeek = dayOfWeek(monday).orElse(null);
+            dayofWeek = dayOfWeek_returns_1_to_7(monday).orElse(null);
             if (dayofWeek == null) {
                 return Optional.empty();
             }
@@ -325,13 +325,13 @@ public class TGS_Time implements Serializable {
         sunday.setDay(day);
         sunday.setMonth(month);
         sunday.setYear(year);
-        var dayofWeek = dayOfWeek(sunday).orElse(null);
+        var dayofWeek = dayOfWeek_returns_1_to_7(sunday).orElse(null);
         if (dayofWeek == null) {
             return Optional.empty();
         }
         while (dayofWeek != 7) {
             sunday.incrementDay(1);
-            dayofWeek = dayOfWeek(sunday).orElse(null);
+            dayofWeek = dayOfWeek_returns_1_to_7(sunday).orElse(null);
             if (dayofWeek == null) {
                 return Optional.empty();
             }
@@ -1236,14 +1236,14 @@ public class TGS_Time implements Serializable {
 
     public Optional<TGS_Time> getStartOfWeek() {
         var d = cloneIt();
-        var day1_7 = TGS_Time.dayOfWeek(d).orElse(null);
-        if (day1_7 == null) {
+        var day1_7 = TGS_Time.dayOfWeek_returns_1_to_7(d).orElse(-1);
+        if (day1_7 == -1) {
             return Optional.empty();
         }
-        while (day1_7.intValue() > 1) {
+        while (day1_7 > 1) {
             d.incrementDay(-1);
-            day1_7 = TGS_Time.dayOfWeek(d).orElse(null);
-            if (day1_7 == null) {
+            day1_7 = TGS_Time.dayOfWeek_returns_1_to_7(d).orElse(-1);
+            if (day1_7 == -1) {
                 return Optional.empty();
             }
         }
@@ -1252,14 +1252,14 @@ public class TGS_Time implements Serializable {
 
     public Optional<TGS_Time> getEndOfWeek() {
         var d = cloneIt();
-        var day1_7 = TGS_Time.dayOfWeek(d).orElse(null);
-        if (day1_7 == null) {
+        var day1_7 = TGS_Time.dayOfWeek_returns_1_to_7(d).orElse(-1);
+        if (day1_7 == -1) {
             return Optional.empty();
         }
-        while (day1_7.intValue() < 7) {
+        while (day1_7 < 7) {
             d.incrementDay(1);
-            day1_7 = TGS_Time.dayOfWeek(d).orElse(null);
-            if (day1_7 == null) {
+            day1_7 = TGS_Time.dayOfWeek_returns_1_to_7(d).orElse(-1);
+            if (day1_7 == -1) {
                 return Optional.empty();
             }
         }
@@ -1270,4 +1270,19 @@ public class TGS_Time implements Serializable {
         return getDate() == getCurrentDate();
     }
 
+    public final Optional<Boolean> isDayWeekend() {
+        var dayOfWeek = dayOfWeek_returns_1_to_7().orElse(-1);
+        if (dayOfWeek == -1){
+            return Optional.empty();
+        }
+        return Optional.of(dayOfWeek > 5);
+    }
+
+    public final Optional<Boolean> isDayWork() {
+        var dayOfWeek = dayOfWeek_returns_1_to_7().orElse(-1);
+        if (dayOfWeek == -1){
+            return Optional.empty();
+        }
+        return Optional.of(dayOfWeek < 6);
+    }
 }
