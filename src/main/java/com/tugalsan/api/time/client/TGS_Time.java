@@ -654,7 +654,7 @@ public class TGS_Time implements Serializable {
             var d = new TGS_Time();
             d.setDay(dyi);
             d.setMonth(mni);
-            d.setYear(TGS_TimeUtils.convertYearToCurrentYearIfPossibleIfZeroDateIsCurrentYear(yri));
+            d.setYear(yri);
             return d;
         }, e -> null);
     }
@@ -857,12 +857,12 @@ public class TGS_Time implements Serializable {
     public final TGS_Time setDateEmpty() {
         day = 0;
         month = 0;
-        year = TGS_TimeUtils.zeroDateYearInt();
+        year = 0;
         return this;
     }
 
     public final boolean isDateEmpty() {
-        return day == 0 && month == 0 && year == TGS_TimeUtils.zeroDateYearInt();
+        return day == 0 && month == 0 && year == 0;
     }
 
     public final TGS_Time setToTodayAndNow() {
@@ -957,6 +957,9 @@ public class TGS_Time implements Serializable {
         if (!isProperDate(true)) {
             day = 1;
             month = 1;
+            return this;
+        }
+        if (day == 1 && month == 1 && year == 0) {
             return this;
         }
         var directionForward = dayStep > 0;
@@ -1272,7 +1275,7 @@ public class TGS_Time implements Serializable {
 
     public final Optional<Boolean> isDayWeekend() {
         var dayOfWeek = dayOfWeek_returns_1_to_7().orElse(-1);
-        if (dayOfWeek == -1){
+        if (dayOfWeek == -1) {
             return Optional.empty();
         }
         return Optional.of(dayOfWeek > 5);
@@ -1280,7 +1283,7 @@ public class TGS_Time implements Serializable {
 
     public final Optional<Boolean> isDayWork() {
         var dayOfWeek = dayOfWeek_returns_1_to_7().orElse(-1);
-        if (dayOfWeek == -1){
+        if (dayOfWeek == -1) {
             return Optional.empty();
         }
         return Optional.of(dayOfWeek < 6);

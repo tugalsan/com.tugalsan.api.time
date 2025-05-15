@@ -6,8 +6,6 @@ import java.util.Date;
 
 public class TGS_TimeUtils {
 
-    final public static boolean ZERO_DAY_CONTAINS_CURRENT_YEAR = true;
-
     public static int SECS_TIMEOUT_MINUS_ONE() {
         return -1;
     }
@@ -32,68 +30,36 @@ public class TGS_TimeUtils {
         return SECS_TIMEOUT_HOUR() * 24;
     }// 60 seconds * 60 minutes * 24 hours
 
-    public static int slimToZeroDateYear_OnlyIf2XXX(int year) {//IT CAN STAY, In 3000 ids will be longer
+    public static int millenniaCurrent() {
+        var currentYearInt = new Date().getYear() + 1900;
+        return millenniaOfYear(currentYearInt);
+    }
+
+    public static int millenniaOfYear(int year) {
+        var sb = new StringBuilder(String.valueOf(year));
+        for (var i = 1; i < sb.length(); i++) {
+            sb.setCharAt(0, '0');
+        }
+        return TGS_CastUtils.toInt(sb, 0);
+    }
+
+    public static int slimToZeroDateYear_OnlyIf2XXX(int year) {//SMALL PREFIX FOR IDS, IF 2XXX
         if (year >= 2000 && year < 2999) {
             year -= 2000;
         }
         return year;
     }
 
-    public static int convertYearToCurrentYearIfPossibleIfZeroDateIsCurrentYear(int yri) {
-        if (!ZERO_DAY_CONTAINS_CURRENT_YEAR) {
-            return yri;
-        }
-        if (convertYearToCurrentYearIfPossible_limit == null) {
-            var currentYearInt = new Date().getYear() + 1900;
-            var charArray = String.valueOf(currentYearInt).toCharArray();
-            for (var i = 1; i < charArray.length; i++) {
-                charArray[i] = '0';
-            }
-            charArray[0] = '1';
-            var str = String.valueOf(charArray);
-            convertYearToCurrentYearIfPossible_limit = TGS_CastUtils.toInt(str, 0);
-        }
-        return yri < convertYearToCurrentYearIfPossible_limit ? yri + TGS_TimeUtils.zeroDateYearInt() : yri;
-    }
-    private static Integer convertYearToCurrentYearIfPossible_limit = null;
-
-    public static int zeroDateYearInt() {
-        if (zeroDateYearInt != null) {
-            return zeroDateYearInt;
-        }
-        zeroDateYearInt = TGS_CastUtils.toInt(zeroDateYearStr(), 0);
-        return zeroDateYearInt;
-    }
-    private static Integer zeroDateYearInt = null;
-
-    public static String zeroDateYearStr() {
-        if (zeroDateYearStr != null) {
-            return zeroDateYearStr;
-        }
-        if (ZERO_DAY_CONTAINS_CURRENT_YEAR) {
-            var currentYearInt = new Date().getYear() + 1900;
-            var charArray = String.valueOf(currentYearInt).toCharArray();
-            for (var i = 1; i < charArray.length; i++) {
-                charArray[i] = '0';
-            }
-            zeroDateYearStr = String.valueOf(charArray);
-        } else {
-            zeroDateYearStr = "0";
-        }
-        return zeroDateYearStr;
-    }
-    private static String zeroDateYearStr = null;
-
     public static long zeroDateLng() {
-        return zeroDateYearInt() * 10000L;
+        return 0;
     }
 
-    public static long zeroDateFirstDayLng() {
+    public static long firstDateLng() {
         return zeroDateLng() + 101L;
     }
 
     public static String zeroDateReadable() {
-        return "00.00." + zeroDateYearStr();
+        return "00.00.0000";
     }
 
     public static boolean isValidOrZeroDate(Long lngDate) {
