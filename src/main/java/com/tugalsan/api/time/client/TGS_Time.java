@@ -959,9 +959,7 @@ public class TGS_Time implements Serializable {
             month = 1;
             return this;
         }
-        if (day == 1 && month == 1 && year == 0) {
-            return this;
-        }
+
         var directionForward = dayStep > 0;
         dayStep = Math.abs(dayStep);
         if (directionForward) {
@@ -980,6 +978,9 @@ public class TGS_Time implements Serializable {
                     return this;
                 }
             }
+        }
+        if (day == 1 && month == 1 && year == 0) {
+            return this;
         }
         while (true) {
             if (dayStep >= day) {
