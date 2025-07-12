@@ -203,18 +203,24 @@ public class TGS_Time implements Serializable {
         return time.setDate(date.getDate());
     }
 
-    public final boolean isProperTime(boolean zeroIsProper) {
-        if (!zeroIsProper && getTime() == 0) {
+    private final boolean isProperTime_9999XXIsProper() {
+        return isProperTime(true);
+    }
+
+    private final boolean isProperTime_9999XXIsNotProper() {
+        return isProperTime(false);
+    }
+
+    private final boolean isProperTime(boolean _9999XXIsProper) {
+        if (!_9999XXIsProper && (getTime() >= 999900 && getTime() <= 999999)) {
             return false;
         }
         return getTime() <= 235959 && getTime() >= 0;
     }
 
-    public final boolean isProperDate(boolean strict) {
-        if (strict) {
-            if (day == 0 || month == 0) {
-                return false;
-            }
+    private final boolean isProperDate(boolean zeroDayOrMonthIsProper) {
+        if (!zeroDayOrMonthIsProper && (day == 0 || month == 0)) {
+            return false;
         }
         var maxMonthDays = 0;
         switch (month) {//DONT USE SWITCH EXPRESSIONS! GWT WONT LIKE U
@@ -241,9 +247,12 @@ public class TGS_Time implements Serializable {
         return day >= 0 && day <= maxMonthDays && month >= 0 && month <= 12;
     }
 
-    @Deprecated
-    public final boolean isProperDate() {
+    public final boolean isProperDate_zeroDayOrMonthIsNotProper() {
         return isProperDate(false);
+    }
+
+    public final boolean isProperDate_zeroDayOrMonthIsProper() {
+        return isProperDate(true);
     }
 
     public final Optional<Integer> getWeekNumber() {
@@ -954,7 +963,7 @@ public class TGS_Time implements Serializable {
     }
 
     public TGS_Time incrementDay(int dayStep) {
-        if (!isProperDate(true)) {
+        if (!isProperDate_zeroDayOrMonthIsNotProper()) {
             day = 1;
             month = 1;
             return this;
@@ -1144,7 +1153,7 @@ public class TGS_Time implements Serializable {
     }
 
     public TGS_Time incrementMonth(int i) {
-        if (!isProperDate(true)) {
+        if (!isProperDate_zeroDayOrMonthIsNotProper()) {
             month = 1;
             return this;
         }
@@ -1169,7 +1178,7 @@ public class TGS_Time implements Serializable {
     }
 
     public TGS_Time incrementYear(int i) {
-        if (!isProperDate(false)) {
+        if (!isProperDate_zeroDayOrMonthIsNotProper()) {
             return this;
         }
         year += i;
