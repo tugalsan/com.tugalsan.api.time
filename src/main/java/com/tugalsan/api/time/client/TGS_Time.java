@@ -203,11 +203,11 @@ public class TGS_Time implements Serializable {
         return time.setDate(date.getDate());
     }
 
-    private final boolean isProperTime_9999HourMinOrSecIsProper() {
+    public final boolean isProperTime_9999HourMinOrSecIsProper() {
         return isProperTime(true);
     }
 
-    private final boolean isProperTime_9999HourMinOrSecIsNotProper() {
+    public final boolean isProperTime_9999HourMinOrSecIsNotProper() {
         return isProperTime(false);
     }
 
