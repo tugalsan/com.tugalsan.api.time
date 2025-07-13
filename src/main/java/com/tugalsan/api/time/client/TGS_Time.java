@@ -203,21 +203,29 @@ public class TGS_Time implements Serializable {
         return time.setDate(date.getDate());
     }
 
+    public final boolean isProperTime_99HourMinOrSecIsProper_shiftedSecondAsMillisecond() {
+        return isProperTime(true, true);
+    }
+
     public final boolean isProperTime_99HourMinOrSecIsProper() {
-        return isProperTime(true);
+        return isProperTime(true, false);
     }
 
     public final boolean isProperTime_99HourMinOrSecIsNotProper() {
-        return isProperTime(false);
+        return isProperTime(false, false);
     }
 
-    private final boolean isProperTime(boolean _9999HourMinOrSecIsProper) {
+    public final boolean isProperTime_99HourMinOrSecIsNotProper_shiftedSecondAsMillisecond() {
+        return isProperTime(false, true);
+    }
+
+    private final boolean isProperTime(boolean _9999HourMinOrSecIsProper, boolean shiftedSecondAsMillisecond) {
         if (!_9999HourMinOrSecIsProper && (second == 99 || minute == 99 || hour == 99)) {
             return false;
         }
         return (second == 99 || (second >= 0 && second <= 59))
                 && (minute == 99 || (minute >= 0 && minute <= 59))
-                && (hour == 99 || (hour >= 0 && hour <= 59));
+                && (hour == 99 || (hour >= 0 && hour <= (shiftedSecondAsMillisecond ? 59 : 23)));
     }
 
     private final boolean isProperDate(boolean zeroDayOrMonthIsProper) {
