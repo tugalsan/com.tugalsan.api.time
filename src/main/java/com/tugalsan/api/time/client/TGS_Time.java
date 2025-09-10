@@ -1218,14 +1218,14 @@ public class TGS_Time implements Serializable {
                 clone.incrementDay(1);
                 dayDiff++;
             }
-            return dayDiff - 1l;
+            return dayDiff;
         } else if (date2.hasSmallerDateThan(this)) {
             clone = date2.cloneIt();
             while (clone.hasSmallerDateThan(this)) {
                 clone.incrementDay(1);
                 dayDiff++;
             }
-            return dayDiff - 1l;
+            return dayDiff;
         } else {
             return dayDiff;
         }
