@@ -10,6 +10,10 @@ public class TS_Duration {
     }
     final private Supplier<Duration> supplier;
 
+    public Duration get() {
+        return supplier.get();
+    }
+
     public static TS_Duration ofSeconds(int seconds) {
         return new TS_Duration(() -> Duration.ofSeconds(seconds));
     }
