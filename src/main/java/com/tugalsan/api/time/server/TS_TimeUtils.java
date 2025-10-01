@@ -1,12 +1,11 @@
 package com.tugalsan.api.time.server;
 
-import com.sun.jna.*;
-import com.sun.jna.platform.win32.WinBase.*;
-import com.sun.jna.win32.*;
-import com.tugalsan.api.function.client.maythrowexceptions.checked.TGS_FuncMTCUtils;
-import com.tugalsan.api.string.client.*;
-import com.tugalsan.api.time.client.*;
-import com.tugalsan.api.union.client.TGS_UnionExcuseVoid;
+import module com.sun.jna;
+import module com.sun.jna.platform;
+import module com.tugalsan.api.function;
+import module com.tugalsan.api.string;
+import module com.tugalsan.api.time;
+import module com.tugalsan.api.union;
 import java.time.*;
 import java.util.*;
 import java.util.concurrent.*;
@@ -48,13 +47,13 @@ public class TS_TimeUtils {
 
     public static interface WinKernel32 extends StdCallLibrary {
 
-        boolean SetLocalTime(SYSTEMTIME st);
+        boolean SetLocalTime(WinBase.SYSTEMTIME st);
         WinKernel32 instance = (WinKernel32) Native.load("kernel32.dll", WinKernel32.class);
     }
 
     public static TGS_UnionExcuseVoid setDateAndTime(TGS_Time dateAndTime) {
         if (Platform.isWindows()) {
-            var st = new SYSTEMTIME();
+            var st = new WinBase.SYSTEMTIME();
             st.wYear = (short) dateAndTime.getYear();
             st.wMonth = (short) dateAndTime.getMonth();
             st.wDay = (short) dateAndTime.getDay();

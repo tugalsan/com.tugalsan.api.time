@@ -1,7 +1,7 @@
 package com.tugalsan.api.time.server;
 
-import java.time.Duration;
-import java.util.function.Supplier;
+import java.time.*;
+import java.util.function.*;
 
 public class TS_Duration {
 
