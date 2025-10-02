@@ -5,7 +5,6 @@ import com.tugalsan.api.charset.client.TGS_CharSetCast;
 import com.tugalsan.api.charset.client.TGS_CharSetLocaleTypes;
 import com.tugalsan.api.function.client.maythrowexceptions.checked.TGS_FuncMTCUtils;
 import com.tugalsan.api.string.client.*;
-
 import java.io.Serializable;
 import java.util.*;
 import java.util.stream.*;

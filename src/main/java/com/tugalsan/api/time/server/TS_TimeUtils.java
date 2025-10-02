@@ -1,6 +1,5 @@
 package com.tugalsan.api.time.server;
 
-import module com.sun.jna;
 import module com.sun.jna.platform;
 import module com.tugalsan.api.function;
 import module com.tugalsan.api.string;
